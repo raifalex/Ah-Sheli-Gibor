@@ -29,10 +29,30 @@ You pick a persona by name, or the skill picks based on output type + audience.
 
 ### What gets validated on every output
 
-1. **Hebrew grammar** — binyan / gender / plural / smikhut / preposition binding / definite-article rules / partitive agreement / et marker / approximation marker
-2. **Talk-jargon currency** — every jargon term traces to the corpus (2025-or-later) or to the persona's signature phrases. No 2022–2023 dated language.
-3. **Persona consistency** — voice holds across every paragraph of the output
-4. **Anti-pattern absence** — cross-checked against the bad-output table
+Six-stage validation pass on every output:
+
+1. **Hebrew grammar (regex-detectable)** — binyan / preposition binding / definite-article rules / approximation marker / filler-word absence / spelling
+2. **Hebrew grammar (model-detectable)** — noun-adjective gender, subject-verb agreement, smikhut chains, binyan correctness
+3. **Talk-jargon currency** — every jargon term traces to the corpus (2025-or-later) or to the persona's signature phrases. No 2022–2023 dated language.
+4. **Persona consistency** — voice holds across every paragraph of the output
+5. **Phrasing / idiomaticity** — word order Hebrew-natural, idioms not calqued from English, register coherent, code-switching density matches persona, sentence rhythm varied per persona signature, connectives appropriate to register, pronoun reference unambiguous
+6. **Anti-patterns + authenticity** — cross-checked against 12-category error catalog and final native-speaker test
+
+### Tool-assisted validator
+
+```sh
+# Regex-only mode (no deps)
+python scripts/hebrew_validate.py --no-model your_text.md
+
+# Full mode (regex + DictaBERT parsing)
+pip install -r scripts/requirements.txt
+python scripts/hebrew_validate.py your_text.md
+
+# JSON output for CI integration
+python scripts/hebrew_validate.py --json your_text.md
+```
+
+Powered by [DictaBERT](https://huggingface.co/dicta-il/dictabert-parse) (CC BY 4.0). Falls back to regex-only when transformers isn't installed.
 
 ### The interview
 

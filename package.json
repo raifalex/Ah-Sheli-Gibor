@@ -1,12 +1,13 @@
 {
   "name": "ah-sheli-gibor",
-  "version": "0.2.0",
-  "description": "Claude Skill for producing authentic 2026-era Israeli tech Hebrew. 5 output types (rewrite/pitch/speech/talking-cards/teleprompter), 6 voice personas (3M/3F), 5-register awareness, and a validation pass that checks Hebrew grammar + current talk-jargon style on every output.",
+  "version": "0.3.0",
+  "description": "Claude Skill for producing authentic 2026-era Israeli tech Hebrew. 5 output types (rewrite/pitch/speech/talking-cards/teleprompter), 6 voice personas (3M/3F), 5-register awareness. Six-stage validation pass with grammar checker + phrasing checker, optional DictaBERT-powered automated validator script. Grounded in 12-category error catalog and authoritative Hebrew references (Academy of Hebrew Language, DictaBERT, Hspell, Morfix).",
   "bin": {
     "ah-sheli-gibor": "./bin/install.js"
   },
   "files": [
     "bin/",
+    "scripts/",
     "SKILL.md",
     "metadata.json",
     "corpus/",

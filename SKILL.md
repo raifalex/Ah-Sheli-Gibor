@@ -125,26 +125,43 @@ For multi-part output (slides, cards, paragraphs), produce all parts together �
 
 ### STEP 5 — VALIDATE
 
-Two-stage validation pass on every output. **This step is non-negotiable.**
+Six-stage validation pass on every output. **This step is non-negotiable.**
 
-#### 5a — Hebrew Grammar Check
+The skill operates in two modes:
 
-Apply the 10-point checklist from `references/grammar_layer.md` §6:
+- **Methodology mode (default):** apply the rule checklists inline, no external tools required. Used by Claude during normal skill invocation.
+- **Tool-assisted mode:** invoke `scripts/hebrew_validate.py` (DictaBERT + regex rules) for automated detection. Useful when the user explicitly asks for "deep validation" or when the output is high-stakes (live broadcast, legal, public release).
 
-1. Anglicized verbs follow correct binyan (pi'el default; conjugation accurate)
-2. Loanword nouns carry correct gender and plural
-3. Compound nouns use smikhut or analytical form (never both)
-4. Preposition + loanword binding (hyphen for English-script, direct for Hebrew-script)
-5. Definite article correct after demonstratives/possessives
-6. Partitive verb agreement (חלקכם חתם, not חתמתם)
-7. "את" before definite direct objects in scripted text
-8. Approximation marker כ- before numbers (not "בערך")
-9. No filler words (אז, כאילו, פשוט, למעשה, בעצם)
-10. Product names preserved English (AWS, Claude, Anthropic, etc.)
+#### 5a — Hebrew Grammar Check (regex-detectable patterns)
 
-For each violation found, fix it and re-validate.
+Apply the 10-point checklist from `references/grammar_layer.md` §6 plus the expanded catalog in `references/common_errors_catalog.md`:
 
-#### 5b — Talk-Jargon Currency Check
+1. Anglicized verbs follow correct binyan (pi'el default; conjugation accurate) — see Category A
+2. Loanword nouns carry correct gender and plural — Category A
+3. Compound nouns use smikhut or analytical form (never both) — Category C
+4. Preposition + loanword binding (hyphen for English-script, direct for Hebrew-script) — Category D
+5. Definite article correct after demonstratives/possessives — Category E
+6. Partitive verb agreement (חלקכם חתם, not חתמתם) — Category B
+7. "את" before definite direct objects in scripted text — Category F
+8. Approximation marker כ- before numbers (not "בערך") — Category G
+9. No filler words in formal registers (אז, כאילו, פשוט, למעשה, בעצם) — Category G
+10. Product names preserved English (AWS, Claude, Anthropic, etc.) — Category H
+
+In tool-assisted mode, `scripts/hebrew_validate.py --no-model` runs all regex-detectable rules in one pass.
+
+#### 5b — Hebrew Grammar Check (model-detectable patterns)
+
+Use the DictaBERT parser via `scripts/hebrew_validate.py` (default mode, model on) or inline judgment to verify:
+
+- **Noun-adjective gender agreement** (Category B1) — DictaBERT `morph.feats.Gender` matching
+- **Subject-verb gender + number agreement** (Category B2, B3) — DictaBERT syntax tree, `dep_func == 'nsubj'`
+- **Smikhut definite-article propagation** (Category C1) — `morph.feats.Definite == 'Cons'`
+- **Construct chain length** (Category C3) — flag chains > 3 nouns
+- **Binyan identification** (Category A3, A4) — `morph.feats.HebBinyan`
+
+In methodology mode, Claude applies these checks by inspection. See `references/grammar_validation_tools.md` for the full toolchain.
+
+#### 5c — Talk-Jargon Currency Check (Category L)
 
 Verify every piece of jargon used:
 
@@ -159,7 +176,7 @@ For each jargon term that fails all three:
 
 **Avoid 2022–2023 dated language entirely.** Especially in the AI/ML domain: don't write "ChatGPT שלנו" generically (use "ה-LLM שלנו" or specific model name); don't write "בינה מלאכותית גנרטיבית" as a buzzword (use precisely or skip).
 
-#### 5c — Persona Consistency Check
+#### 5d — Persona Consistency Check
 
 Read the output as if you are the chosen persona. Ask:
 - Does the voice hold across every paragraph?
@@ -167,9 +184,26 @@ Read the output as if you are the chosen persona. Ask:
 - Does the persona's "what they don't do" list hold?
 - Could this paragraph have been written by a different persona without anyone noticing? If yes — strengthen the voice.
 
-#### 5d — Anti-pattern Check
+#### 5e — Phrasing Check (idiomaticity / naturalness layer)
 
-Cross-check against `references/anti_patterns.md`. Any anti-pattern present means rewrite that clause.
+Apply `references/phrasing_checker.md` checklist:
+
+1. **Word order** — Hebrew-natural (VSO/SVO per register) vs English-calqued
+2. **Idiom check** — Hebrew idioms used; English idioms NOT calqued
+3. **Register coherence** — single vocabulary band across the text (no drift)
+4. **Code-switching density** — matches the persona's fingerprint (% of English-script nouns)
+5. **Sentence rhythm** — variation matches persona signature (Yoel: short-short-LONG-short; Shira: LONG-short; Dana: medium-short; etc.)
+6. **Connectives** — chosen per register (אולם / יחד עם זאת for formal; אבל / אז for informal)
+7. **Vocabulary variation** — no accidental repetition within 3 paragraphs
+8. **Anaphora clarity** — every pronoun antecedent unambiguous
+
+This is the layer where a grammatically-perfect translation gets reshaped into actual Hebrew thought.
+
+#### 5f — Anti-pattern + Authenticity Final Pass
+
+Cross-check against `references/anti_patterns.md` and `references/common_errors_catalog.md` (12 categories A–L). Any anti-pattern present means rewrite that clause.
+
+Then the final authenticity question: would a 2026 Israeli engineer / journalist / pundit / founder (matching the persona's role) write this — or am I tolerating something a translator produced? Any answer of "tolerating" → rewrite.
 
 ### STEP 6 — AUTHENTICITY REVIEW
 
@@ -297,10 +331,48 @@ This skill is the **production layer** on top of `hebrew-content-writer`. Where 
 
 ---
 
+## Validation toolchain
+
+The skill ships with two layers of validation tooling. See `references/grammar_validation_tools.md` for the full toolchain documentation.
+
+### Inline (methodology mode — default)
+
+Claude applies all rule checklists during STEP 5 by inspection. No external tools required.
+
+### Tool-assisted mode
+
+`scripts/hebrew_validate.py` runs automated checks against any Hebrew text:
+
+```sh
+# Regex-only mode (no dependencies, fast)
+python scripts/hebrew_validate.py --no-model <text_file>
+
+# Full mode (regex + DictaBERT parsing)
+pip install -r scripts/requirements.txt
+python scripts/hebrew_validate.py <text_file>
+
+# JSON output for programmatic integration
+python scripts/hebrew_validate.py --json <text_file>
+
+# Stdin input
+echo "Hebrew text here..." | python scripts/hebrew_validate.py --stdin
+```
+
+Coverage:
+- 11+ regex-detectable error patterns (Categories A/D/E/G/H/K/L from `common_errors_catalog.md`)
+- DictaBERT-based agreement, smikhut, binyan analysis (Categories B, C model-detectable subset)
+
+Exit codes: 0=clean, 1=warnings only, 2=errors found.
+
+For the full error catalog and detection sequencing see `references/common_errors_catalog.md`.
+
+---
+
 ## Versioning
 
 - **v0.1.0** — scaffold + ~30 seed corpus entries + 5 register tests + rewrite-only methodology
 - **v0.1.1** — npx installer added
-- **v0.2.0** (current) — adds: 6 personas with full profiles, 4 new output types (pitch / speech / talking-cards / teleprompter), interview protocol (STEP 0), formal validation pass (STEP 5 — grammar + jargon currency + persona consistency + anti-patterns), upgraded description to 2026
-- **v0.3.0** (planned) — corpus expansion to 100 entries (70% 2025–2026 web-dated), persona signature-phrase validation against fresh web sources, automated grammar validation via DictaBERT integration
+- **v0.2.0** — 6 personas + 4 output types (pitch / speech / talking-cards / teleprompter) + interview protocol (STEP 0) + initial validation pass
+- **v0.3.0** (current) — expanded validation pass: 6 sub-steps including phrasing check (5e), authoritative grammar tools reference, common errors catalog (12 categories A–L), Python validator script (`scripts/hebrew_validate.py`) with regex + DictaBERT modes
+- **v0.4.0** (planned) — corpus expansion to 100 entries (70% 2025–2026 web-dated), persona signature-phrase validation against fresh web sources
 - **v1.0.0** (planned) — 300+ corpus entries, additional personas (Arabic-Hebrew, religious-Hebrew), persona learning from user-supplied samples
