@@ -2,7 +2,48 @@
 
 > **אח שלי גיבור** — the affectionate Israeli startup-nation address. This skill rewrites text into the way a 2025 Israeli tech professional would actually write it.
 
-A Claude Skill for **authentic Israeli tech Hebrew rewriting**. Receives any input text (English or formal Hebrew), comprehends it, and reconstructs it in the target Israeli tech register — with correct binyan grammar, accurate noun gender, proper smikhut, and 2025-current jargon.
+A Claude Skill for **producing authentic 2026-era Israeli tech Hebrew** across 5 output types and 6 voice personas, with a full validation pass on every output.
+
+### What it produces
+
+| Output type | When to use |
+|---|---|
+| **Rewrite** | Reframe existing text in a target Israeli tech register |
+| **Pitch** | Investor / customer / internal / elevator pitch decks |
+| **Speech** | Keynotes, commencements, memorials, founder town-halls |
+| **Talking cards** | Panel prep, TV interview, board meeting navigators |
+| **Teleprompter** | Verbatim broadcast scripts with delivery annotations |
+
+### The 6 personas
+
+| Persona | Gender | Archetype | Signature |
+|---|---|---|---|
+| **יואל "יו-יו" שריג** | M | tech-founder | Series-A confidence, dense English code-switching, founder-mode urgency |
+| **שירה לב** | F | literary speechwriter | Classical-modern Hebrew, recurring images, emotional crescendos |
+| **גלעד אש** | M | comedian | Deadpan, slang-fluent but selective, Hebrew setup + English punch |
+| **דנה אלמוג** | F | TV panelist-pundit | Debate-trained soundbites, rhetorical-question framing, controlled aggression |
+| **איתמר חוזה** | M | veteran journalist | Patient long-form, classical Hebrew, deferred conclusions |
+| **נועה אופק** | F | contemporary creator | Intimate, vulnerable, fluid Hebrew-English, story-driven |
+
+You pick a persona by name, or the skill picks based on output type + audience.
+
+### What gets validated on every output
+
+1. **Hebrew grammar** — binyan / gender / plural / smikhut / preposition binding / definite-article rules / partitive agreement / et marker / approximation marker
+2. **Talk-jargon currency** — every jargon term traces to the corpus (2025-or-later) or to the persona's signature phrases. No 2022–2023 dated language.
+3. **Persona consistency** — voice holds across every paragraph of the output
+4. **Anti-pattern absence** — cross-checked against the bad-output table
+
+### The interview
+
+When you invoke the skill it asks (only) what it needs:
+- What's the output type? (rewrite / pitch / speech / talking-cards / teleprompter)
+- Where will this be used, who's the audience?
+- What's the purpose? (inform / persuade / entertain / sell / mobilize / celebrate / mourn)
+- What mood/tone? (confident / warm / urgent / measured / playful / serious / vulnerable)
+- Which persona? (or "auto" — the skill picks)
+
+If you've given enough context up front, the skill skips the interview and just confirms its inferences in one line.
 
 ---
 

@@ -1,7 +1,7 @@
 {
   "name": "ah-sheli-gibor",
-  "version": "0.1.0",
-  "description": "Claude Skill for rewriting any text into authentic 2025-era Israeli tech Hebrew. Correct pi'el binyan, gender, smikhut, and 5-register awareness (slack/blog/linkedin/pitch/rfc).",
+  "version": "0.2.0",
+  "description": "Claude Skill for producing authentic 2026-era Israeli tech Hebrew. 5 output types (rewrite/pitch/speech/talking-cards/teleprompter), 6 voice personas (3M/3F), 5-register awareness, and a validation pass that checks Hebrew grammar + current talk-jargon style on every output.",
   "bin": {
     "ah-sheli-gibor": "./bin/install.js"
   },
@@ -11,6 +11,9 @@
     "metadata.json",
     "corpus/",
     "references/",
+    "personas/",
+    "output_types/",
+    "research/",
     "tests/",
     "examples/",
     "README.md",

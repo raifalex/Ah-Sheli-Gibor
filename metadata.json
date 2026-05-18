@@ -1,29 +1,41 @@
 {
   "author": "skills-il",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "category": "language-tools",
   "tags": {
     "he": [
       "עברית-טכנולוגית",
       "ז'רגון",
       "כתיבה-מחדש",
+      "פיץ'",
+      "נאום",
+      "כרטיסי-דיבור",
+      "טלפרומפטר",
+      "פרסונה",
       "סטארטאפ",
       "תל-אביב",
       "בניין-פיעל",
       "סמיכות",
       "קוד-סוויצ'ינג",
+      "ולידציה",
       "ישראל"
     ],
     "en": [
       "israeli-tech-hebrew",
       "jargon",
       "rewriting",
+      "pitch",
+      "speech",
+      "talking-cards",
+      "teleprompter",
+      "persona",
       "startup-nation",
       "tel-aviv",
       "binyan-piel",
       "smikhut",
       "code-switching",
       "register",
+      "validation",
       "israel"
     ]
   },
@@ -32,8 +44,8 @@
     "en": "Ah Sheli Gibor"
   },
   "display_description": {
-    "he": "כתיבה מחדש של כל טקסט לעברית טכנולוגית ישראלית אותנטית של 2025 (רגיסטר תל-אביבי של סטארטאפים), עם דקדוק נכון: בניין פיעל לפעלים אנגליים, מגדר נכון לשמות-עצם, סמיכות תקינה, וקוד-סוויצ'ינג עם תחיליות מקפים. תומך בחמישה רגיסטרים: סלאק/סטנדאפ, בלוג טכני, לינקדאין, פיץ' למשקיעים, ומסמך PR/RFC. השתמשו כשרוצים שטקסט יישמע כמו שמהנדס במאנדיי, וויקס או מובילאיי באמת היה כותב אותו. לא מתאים לתרגום עברית כללי, מסמכים אקדמיים פורמליים, תוכן לא-טכני, או יצירת מסמכים פיזיים.",
-    "en": "Rewrite any text into authentic 2025-era Israeli tech Hebrew (Tel Aviv startup register) with correct grammar: binyan pi'el for anglicized verbs, accurate noun gender, proper smikhut, and hyphen-prefixed code-switching. Supports five registers: slack/standup, technical-blog, linkedin, investor-pitch, pr-rfc. Use when you want text to sound like a Monday/Wix/Mobileye engineer actually wrote it. Do NOT use for general Hebrew translation, formal Academy-of-Hebrew documents, non-tech content, or physical document generation."
+    "he": "ייצור עברית טכנולוגית ישראלית אותנטית של 2026 ב-5 פורמטים: כתיבה מחדש, פיץ' למשקיעים, נאום, כרטיסי דיבור (talking cards) לפאנלים וראיונות, וטקסט לטלפרומפטר. שש פרסונות לבחירה: יואל הפאונדר-מוד, שירה כותבת הנאומים הספרותית, גלעד הקומיקאי, דנה הפנליסטית, איתמר העיתונאי הוותיק, ונועה היוצרת הקולית-אינטימית. המיומנות מראיינת את המשתמש על קונטקסט, קהל, מצב-רוח ופרסונה לפני הפקה. כל פלט עובר ולידציה דקדוקית מלאה (בניין, מגדר, סמיכות, חיבור מילות יחס) וולידציה מול ז'רגון 2026 עכשווי. השתמשו ביצירת פיץ' למשקיעים בעברית, כתיבת נאום מרכזי, הכנת כרטיסי טוקינג לפאנל-טלוויזיה, או כתיבת תסריט טלפרומפטר. לא מתאים לתרגום עברית כללי, מסמכים אקדמיים פורמליים, תוכן לא-טכני, או יצירת מסמכים פיזיים.",
+    "en": "Produce authentic 2026-era Israeli tech Hebrew across 5 output types: rewrite, investor pitch, speech, talking cards (for panels and interviews), and teleprompter script. Six selectable personas: Yoel the founder-mode tech bro, Shira the literary speechwriter, Gilad the stand-up comedian, Dana the TV panelist, Itamar the veteran journalist, and Noa the intimate-voice creator. The skill interviews the user about context, audience, mood, and persona before producing output. Every output runs a full grammar validation pass (binyan / gender / smikhut / preposition binding) and a 2026-currency check against the corpus. Use for Hebrew investor pitches, keynote speeches, TV panel prep cards, or teleprompter scripts. Do NOT use for general Hebrew translation, formal Academy-of-Hebrew documents, non-tech content, or physical document generation."
   },
   "supported_agents": [
     "claude-code",

@@ -1,0 +1,88 @@
+{
+  "schema_version": "v1",
+  "persona_set_version": "0.2.0",
+  "generated_date": "2026-05-18",
+  "note": "These 6 personas are CULTURAL ARCHETYPE SYNTHESES, not biographies of real people. Names are intentionally fictional. The styles are grounded in observation of contemporary (2024-2026) Israeli media, tech, comedy, journalism, and literary voices, but no persona corresponds to any single real individual. The styles are stable archetypes that have persisted in Israeli public discourse for years.",
+  "persona_count": 6,
+  "gender_distribution": {"male": 3, "female": 3},
+  "personas": [
+    {
+      "id": "yoel-yoyo-sarig",
+      "name_he": "יואל \"יו-יו\" שריג",
+      "name_romanized": "Yoel \"Yo-Yo\" Sarig",
+      "gender": "male",
+      "archetype": "tech-founder",
+      "one_line": "Mid-30s AI startup founder, Series A post-raise confidence, dense English code-switching, founder-mode urgency.",
+      "best_output_types": ["pitch", "linkedin", "speech", "talking-cards"],
+      "best_for_audiences": ["investors", "founders", "engineering teams", "tech-LinkedIn"],
+      "mood": ["high-confidence", "mission-driven", "urgent", "slightly impatient"],
+      "code_switching_density": "high",
+      "file": "yoel-yoyo-sarig.md"
+    },
+    {
+      "id": "shira-lev",
+      "name_he": "שירה לב",
+      "name_romanized": "Shira Lev",
+      "gender": "female",
+      "archetype": "literary-speechwriter",
+      "one_line": "Mid-40s political/corporate speechwriter and opinion columnist, classical-modern Hebrew balance, builds emotional crescendos.",
+      "best_output_types": ["speech", "pitch", "teleprompter", "talking-cards"],
+      "best_for_audiences": ["formal-events", "memorial", "graduation", "investor-formal", "industry-keynote"],
+      "mood": ["measured", "dignified", "emotionally-precise", "literary"],
+      "code_switching_density": "low",
+      "file": "shira-lev.md"
+    },
+    {
+      "id": "gilad-esh",
+      "name_he": "גלעד אש",
+      "name_romanized": "Gilad Esh",
+      "gender": "male",
+      "archetype": "comedian",
+      "one_line": "Late-20s stand-up comic and satirical-TV writer, deadpan timing, knows when to undercut, slang-fluent but selective.",
+      "best_output_types": ["talking-cards", "speech", "linkedin", "teleprompter"],
+      "best_for_audiences": ["industry-roasts", "company-offsite-opener", "satire", "casual-keynote-opener"],
+      "mood": ["irreverent", "observant", "friendly-sharp", "deadpan"],
+      "code_switching_density": "medium",
+      "file": "gilad-esh.md"
+    },
+    {
+      "id": "dana-almog",
+      "name_he": "דנה אלמוג",
+      "name_romanized": "Dana Almog",
+      "gender": "female",
+      "archetype": "panelist-pundit",
+      "one_line": "Mid-40s TV news pundit, debate-trained, punchy soundbites, rhetorical-question opener, controlled aggression.",
+      "best_output_types": ["talking-cards", "teleprompter", "pitch", "speech"],
+      "best_for_audiences": ["panels", "debates", "TV-interviews", "media-prep", "soundbite-driven-talks"],
+      "mood": ["confident", "debate-ready", "sharp", "assertive"],
+      "code_switching_density": "medium",
+      "file": "dana-almog.md"
+    },
+    {
+      "id": "itamar-hoze",
+      "name_he": "איתמר חוזה",
+      "name_romanized": "Itamar Hoze",
+      "gender": "male",
+      "archetype": "veteran-journalist",
+      "one_line": "Late-50s veteran feature journalist, long-form patient style, classical Hebrew vocabulary, measured tech jargon usage.",
+      "best_output_types": ["speech", "linkedin", "pitch"],
+      "best_for_audiences": ["long-form-features", "investigative-pieces", "corporate-biographies", "retrospective-talks"],
+      "mood": ["thoughtful", "patient", "authoritative", "literary-grounded"],
+      "code_switching_density": "low",
+      "file": "itamar-hoze.md"
+    },
+    {
+      "id": "noa-ofek",
+      "name_he": "נועה אופק",
+      "name_romanized": "Noa Ofek",
+      "gender": "female",
+      "archetype": "contemporary-creator",
+      "one_line": "Early-30s content creator and podcast host, intimate vulnerable voice, comfortable Hebrew-English fluidity, parasocial connection.",
+      "best_output_types": ["linkedin", "talking-cards", "speech", "teleprompter"],
+      "best_for_audiences": ["podcast", "intimate-talks", "founder-vulnerable-posts", "small-group-keynotes"],
+      "mood": ["warm", "present", "slightly-vulnerable", "honest"],
+      "code_switching_density": "high",
+      "file": "noa-ofek.md"
+    }
+  ]
+}

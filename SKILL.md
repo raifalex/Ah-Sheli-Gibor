@@ -1,32 +1,50 @@
 ---
 name: ah-sheli-gibor
-description: "Rewrite any text into authentic 2025-era Israeli tech Hebrew (Tel Aviv startup register) with correct binyan/gender/smikhut grammar and register-aware style (slack, technical-blog, linkedin, investor-pitch, pr-rfc). Use when the user asks to rewrite in Israeli tech Hebrew, translate to startup-nation Hebrew, make text sound like a Tel Aviv engineer wrote it, or supplies an English or formal-Hebrew article and wants the Israeli tech register. The skill is rewriting-first — it comprehends source content and reconstructs it in the target register, not a word-by-word translation. Do NOT use for general Hebrew translation (use DeepL or DictaLM), formal Academy-of-Hebrew documents, RTL CSS work (use hebrew-rtl-best-practices), Hebrew document generation (use hebrew-document-generator), or non-tech content (use hebrew-content-writer)."
+description: "Produce authentic 2026-era Israeli tech Hebrew across 5 output types — rewrite, pitch, speech, talking-cards, teleprompter — with correct binyan/gender/smikhut grammar, 5-register awareness (slack, technical-blog, linkedin, investor-pitch, pr-rfc), and a choice of 6 voice personas (3 men, 3 women): the tech-founder (יואל), the literary speechwriter (שירה), the comedian (גלעד), the panelist-pundit (דנה), the veteran journalist (איתמר), and the contemporary creator (נועה). The skill interviews the user for context (use case, audience, mood, persona) before producing output. Every output is validated against Hebrew grammar rules and current 2026 talk-jargon style. Use when the user supplies text or a topic and wants authentic Israeli tech Hebrew output — rewriting an article, drafting a pitch, writing a keynote, preparing panel cards, or scripting a teleprompter. Do NOT use for general Hebrew translation (use DeepL or DictaLM), formal Academy-of-Hebrew documents, RTL CSS work (use hebrew-rtl-best-practices), Hebrew document generation (use hebrew-document-generator), or non-tech content (use hebrew-content-writer)."
 license: MIT
 allowed-tools: ''
 compatibility: Works with Claude, Claude Code, Cursor. Optimized for Claude Sonnet 4.6+ and Claude Opus 4.7. Hebrew RTL rendering depends on the host environment.
 ---
 
-# Ah Sheli Gibor — Israeli Tech Hebrew Rewriting Skill
+# Ah Sheli Gibor — Israeli Tech Hebrew Production Skill
 
-> "אח שלי גיבור" — the affectionate startup-nation address. This skill rewrites text into the way an Israeli tech professional would actually write it in 2025.
+> "אח שלי גיבור" — the affectionate startup-nation address. This skill produces Hebrew text that sounds like a 2026 Israeli tech professional actually wrote it.
 
 ## What this skill does
 
-Receives input text (any Hebrew or English: article, blog post, spec, email, pitch, LinkedIn post, Slack message) and produces a **fully rewritten version in authentic 2025-era Israeli tech Hebrew**. The output must pass the native-speaker test: an Israeli engineer at Monday, Wix, or Mobileye should read it and think "כן, זה נשמע נכון."
+Produces authentic 2026-era Israeli tech Hebrew across **5 output types**:
 
-This is **rewriting, not translation**. The skill comprehends the source argument, then reconstructs it in the target register from the inside out.
+1. **Rewrite** — comprehend source text and reconstruct in target register
+2. **Pitch** — investor / customer / internal / elevator pitch decks and scripts
+3. **Speech** — keynotes, commencements, memorials, founder town-halls, award speeches
+4. **Talking cards** — panel prep, TV interview cards, board meeting navigators
+5. **Teleprompter** — verbatim broadcast/recorded-video scripts with delivery annotations
+
+Every output is **voiced by one of 6 personas** (you choose, or the skill chooses based on context):
+
+- **יואל "יו-יו" שריג** (M) — tech-founder, high-energy, dense code-switching
+- **שירה לב** (F) — literary speechwriter, classical-modern Hebrew balance
+- **גלעד אש** (M) — comedian, deadpan, slang-fluent but selective
+- **דנה אלמוג** (F) — TV panelist-pundit, debate-tested, sharp soundbites
+- **איתמר חוזה** (M) — veteran feature journalist, patient long-form authority
+- **נועה אופק** (F) — contemporary creator, intimate, vulnerable, fluid Hebrew-English
+
+Every output is **validated** before delivery against:
+- Hebrew grammar (binyan / gender / smikhut / preposition binding / definite-article rules)
+- Current 2026 talk-jargon style (corpus-grounded vocabulary, no dated language)
+- Persona consistency (the chosen voice holds across the output)
 
 ## When to invoke
 
 Trigger phrases the skill responds to:
 - "rewrite in Israeli tech Hebrew"
-- "make this sound like a Tel Aviv engineer"
-- "startup-nation Hebrew version"
+- "write me a pitch for [X]"
+- "draft a speech / keynote in Hebrew"
+- "prepare talking cards for [scenario]"
+- "teleprompter script for [recording]"
+- "make this sound like [persona name] wrote it"
 - "Israeli LinkedIn voice"
-- "Hebrew slack/standup version"
-- Any input text with an implicit ask for the Israeli tech register
-
-If the user supplies content without specifying a register and the register materially changes the output, **ask once** which register: slack / technical-blog / linkedin / investor-pitch / pr-rfc. Otherwise proceed.
+- Any input text or topic with an implicit ask for production-grade Israeli tech Hebrew
 
 ## When NOT to use this skill
 
@@ -35,85 +53,167 @@ If the user supplies content without specifying a register and the register mate
 - Hebrew RTL CSS or layout → use `hebrew-rtl-best-practices`
 - Hebrew PDF/DOCX/PPTX generation → use `hebrew-document-generator`
 - Niqud/vowelization → use Dicta Nakdan API
-- Non-tech content (legal, medical, literary) → use `hebrew-content-writer`
+- Non-tech content (legal, medical, literary, news) → use `hebrew-content-writer`
 
-## Operating protocol — 5 steps
+---
 
-Execute these in order. Do not skip steps.
+## Operating protocol — 6 steps
+
+Execute in order. Do not skip steps.
+
+### STEP 0 — INTERVIEW
+
+When invoked, identify what the user supplied and what's missing. The skill needs five things before producing output. Ask only what's not already given.
+
+| Variable | Options | Default if not specified |
+|---|---|---|
+| **Output type** | rewrite / pitch / speech / talking-cards / teleprompter | infer from request; if ambiguous, ask |
+| **Use context** | where will this be used, who's the audience, what platform | ask if not stated |
+| **Purpose** | inform / persuade / entertain / sell / mobilize / celebrate / mourn | infer from output type + context |
+| **Mood / tone** | confident / warm / urgent / measured / playful / serious / vulnerable | infer from persona + context |
+| **Persona** | יואל / שירה / גלעד / דנה / איתמר / נועה / auto | ask once if not specified; "auto" chooses based on output type + context |
+
+**Interview rules:**
+
+- **Ask at most 3 questions** at any one time. Don't drown the user.
+- **Combine related questions** into a single ask when sensible.
+- **If 4/5 variables are clear from context**, proceed without asking — name your inferences in one line ("ממשיך עם: speech, audience=board, mood=urgent, persona=יואל. אם זה לא נכון — תקן אותי.").
+- **Persona "auto"** is fine if the user doesn't have a preference — the skill picks based on the output-type → persona pairing table (see persona files for pairings).
+- **In subsequent turns** in the same session, remember the answers; don't re-ask.
 
 ### STEP 1 — COMPREHEND
 
-Read the input fully. Identify:
-- Core topic and argument
-- Technical domain (infra / product / management / AI/ML / security / data / mobile)
-- Source register (formal article / informal post / technical doc / pitch / chat)
+Read all input fully. Identify:
+- Core argument or topic
+- Technical domain (infra / product / management / AI/ML / security / data / mobile / business)
+- Source register (formal article / informal post / technical doc / pitch / chat / raw notes)
 - Key terms that have Israeli tech jargon equivalents in the corpus
 
-Do not begin writing until you understand the full argument.
+For pitch/speech/teleprompter/talking-cards, additionally identify:
+- Target length (time or word count)
+- Structural constraints (slide count, card count, agenda items)
+- Audience-specific context (investors, engineers, board, public, press)
+
+Do not begin writing until you understand the full input.
 
 ### STEP 2 — MAP TERMS
 
-For each significant term, apply this **priority cascade**:
+For each significant term, apply the **priority cascade**:
 
-1. **2025 corpus match** (`corpus/jargon.json`) — established Israeli tech jargon term. Use it.
-2. **Academy of Hebrew Language approved term** — use in formal register (investor-pitch, pr-rfc); use the jargon in informal register (slack, linkedin, technical-blog).
-3. **Construct an anglicized loanword via binyan pi'el rules** (`references/grammar_layer.md` §1) — only if (1) and (2) yield nothing and the English term is genuinely missing from Hebrew.
-4. **Calque (loan translation)** — only if the result sounds natural to a native speaker. Otherwise prefer the loanword.
+1. **2026 corpus match** (`corpus/jargon.json`) — established Israeli tech jargon term. Use it.
+2. **Persona signature phrase** (`personas/<persona-id>.md`) — if the chosen persona has a signature phrase that fits, use it.
+3. **Academy of Hebrew Language approved term** — use in formal register (investor-pitch, pr-rfc, teleprompter); use the jargon in informal register (slack, linkedin, technical-blog).
+4. **Construct an anglicized loanword via binyan pi'el rules** (`references/grammar_layer.md` §1) — only if (1)–(3) yield nothing.
+5. **Calque (loan translation)** — only if the result sounds natural to a native speaker.
 
-Default rule: **prefer the established anglicized loanword over invented Hebrew** when that loanword is documented in the 2025 corpus.
+Default rule: **prefer the established anglicized loanword over invented Hebrew** when that loanword is documented in the corpus.
 
-### STEP 3 — SET REGISTER
+### STEP 3 — SET REGISTER + STRUCTURE
 
-Confirm target register. If ambiguous, ask once. Register affects:
+Confirm register and structural template:
 
-| Register | Sentence length | Ellipsis | Jargon density | Grammar style |
-|---|---|---|---|---|
-| **slack / standup** | very short | OK to drop subject | high, all anglicized | elliptical, verb-first |
-| **technical-blog** | medium-long | full sentences | medium, contextualized | mix of jargon + standard |
-| **linkedin** | medium | personal voice | medium, story-driven | direct address, "אני"/"אנחנו" |
-| **investor-pitch** | medium-formal | full sentences | controlled, English in parens where helpful | formal Hebrew frame |
-| **pr-rfc** | precise, short | full sentences | minimal jargon | near-formal, precision-first |
+- **Register** affects sentence length, ellipsis tolerance, jargon density, code-switching density (see `references/grammar_layer.md` §5)
+- **Structure** is dictated by output type — see `output_types/<type>.md` for the template
 
-Worked examples per register live in `references/grammar_layer.md` §5.
+Worked examples per register + output type live in the respective `output_types/*.md` files.
 
-### STEP 4 — WRITE AND GRAMMAR-CHECK
+### STEP 4 — WRITE
 
-Write the full rewritten text. Then verify every clause:
+Produce the full output in one pass. Apply persona voice consistently. Match the structural template for the output type. Hit the target length.
 
-- **Every anglicized verb** → correct binyan (pi'el default; hif'il exceptions documented), correct tense, correct person/gender agreement (`references/grammar_layer.md` §1)
-- **Every loanword noun** → correct gender (default masculine; documented exceptions), correct plural (almost always -ים even for content-feminine words) (`references/grammar_layer.md` §2)
-- **Every compound noun** → smikhut (סמיכות) if appropriate, or analytical "X של Y" — never both (`references/grammar_layer.md` §3)
-- **Every preposition + loanword** → ב/ל/מ + hyphen for English-script terms (ב-MCP, not בMCP); native Hebrew prefix-binding for Hebrew-script loanwords (`references/grammar_layer.md` §4)
-- **Every definite-article construction** → correct ה placement after demonstratives/possessives (ההנחה הזאת, not הנחה הזאת)
-- **Every partitive** → verb agrees with the partitive head, not the implied plural (חלקכם חתם, not חלקכם חתמתם)
-- **"את" marker** → present before definite direct objects in scripted/precise text
+For multi-part output (slides, cards, paragraphs), produce all parts together — don't fragment.
 
-Fix every error before continuing.
+### STEP 5 — VALIDATE
 
-### STEP 5 — AUTHENTICITY REVIEW
+Two-stage validation pass on every output. **This step is non-negotiable.**
 
-Read the output as if you are a 2025 Israeli engineer at Monday/Wix/Mobileye. Apply these checks:
+#### 5a — Hebrew Grammar Check
+
+Apply the 10-point checklist from `references/grammar_layer.md` §6:
+
+1. Anglicized verbs follow correct binyan (pi'el default; conjugation accurate)
+2. Loanword nouns carry correct gender and plural
+3. Compound nouns use smikhut or analytical form (never both)
+4. Preposition + loanword binding (hyphen for English-script, direct for Hebrew-script)
+5. Definite article correct after demonstratives/possessives
+6. Partitive verb agreement (חלקכם חתם, not חתמתם)
+7. "את" before definite direct objects in scripted text
+8. Approximation marker כ- before numbers (not "בערך")
+9. No filler words (אז, כאילו, פשוט, למעשה, בעצם)
+10. Product names preserved English (AWS, Claude, Anthropic, etc.)
+
+For each violation found, fix it and re-validate.
+
+#### 5b — Talk-Jargon Currency Check
+
+Verify every piece of jargon used:
+
+- **Corpus-grounded** — appears in `corpus/jargon.json` with confidence "high" or "medium"
+- **OR persona signature** — appears in the chosen persona's signature-phrases list
+- **OR Academy-approved** — appears as `standard_hebrew_equivalent` in a corpus entry
+
+For each jargon term that fails all three:
+- If the term is genuinely current 2026 usage and you know it, flag for corpus addition (note in output: "TODO: add to corpus")
+- If the term is uncertain, replace it with a corpus-grounded alternative
+- If no alternative exists in the right register, fall back to standard Hebrew
+
+**Avoid 2022–2023 dated language entirely.** Especially in the AI/ML domain: don't write "ChatGPT שלנו" generically (use "ה-LLM שלנו" or specific model name); don't write "בינה מלאכותית גנרטיבית" as a buzzword (use precisely or skip).
+
+#### 5c — Persona Consistency Check
+
+Read the output as if you are the chosen persona. Ask:
+- Does the voice hold across every paragraph?
+- Are the persona's distinctive moves present (or appropriately absent)?
+- Does the persona's "what they don't do" list hold?
+- Could this paragraph have been written by a different persona without anyone noticing? If yes — strengthen the voice.
+
+#### 5d — Anti-pattern Check
+
+Cross-check against `references/anti_patterns.md`. Any anti-pattern present means rewrite that clause.
+
+### STEP 6 — AUTHENTICITY REVIEW
+
+Final pass. Read the output as if you are a 2026 Israeli engineer / journalist / pundit / founder (matching the persona's role). Apply:
 
 - Does any phrase sound like a translation rather than original Hebrew thought? Flag and rewrite.
-- Is there jargon overuse — places where plain Hebrew would be more natural? Flag and replace.
-- Are filler words (אז, כאילו, פשוט, למעשה, בעצם) absent? Spoken Hebrew tolerates them; written tech Hebrew does not.
-- Does the rhythm match the target register? Slack should be punchy; technical-blog should breathe.
-- Are anti-patterns absent? Cross-check against `references/anti_patterns.md`.
+- Does the rhythm match the target register and output type? Slack should be punchy; speech should breathe; teleprompter should scan.
+- Would I, as a native speaker in 2026, write this — or am I tolerating something a translator produced?
+- Is there any phrase that would have been current in 2023 but is now dated?
 
 Rewrite any failing sentence. Output the final version only.
 
-## The corpus
+---
 
-The 2025 Israeli tech Hebrew vocabulary lives in `corpus/jargon.json`. Each entry has:
-- Hebrew term + romanization + literal English source
-- Full grammar: binyan, gender, plural, conjugation, smikhut form
-- Register tags (which registers it's appropriate for)
-- Example sentence + standard-Hebrew equivalent + cultural note
-- Source provenance (URL + date) + confidence rating
+## Output type quick-reference
 
-**2025-only source rule:** Web-sourced entries must trace to a URL dated January 2025 or later. Pre-2025 jargon decays — Israeli tech language evolves fast, especially in the AI/ML layer (RAG, MCP, אגנטי AI, פיין-טיון). Local-bootstrapped entries (from your own materials) carry explicit provenance to those local files.
+Full methodology for each lives in `output_types/`:
 
-See `references/sources.md` for the full source registry.
+| Output type | When | File |
+|---|---|---|
+| **Rewrite** | reframe source text in target register | `output_types/rewrite.md` (implicit — see `references/grammar_layer.md` §5) |
+| **Pitch** | investor / customer / internal pitch | `output_types/pitch.md` |
+| **Speech** | keynote, commencement, memorial, town-hall | `output_types/speech.md` |
+| **Talking cards** | panel prep, TV interview, board meeting | `output_types/talking_cards.md` |
+| **Teleprompter** | verbatim broadcast/recorded script | `output_types/teleprompter.md` |
+
+---
+
+## Personas — quick selection guide
+
+Full persona files live in `personas/`:
+
+| Persona | Gender | Archetype | Best for |
+|---|---|---|---|
+| **יואל "יו-יו" שריג** | M | tech-founder | investor pitch, LinkedIn announcements, founder town-hall, board meeting |
+| **שירה לב** | F | literary speechwriter | formal keynotes, commencement, memorials, op-eds, founder letters |
+| **גלעד אש** | M | comedian | conference keynote openers, company offsites, awards-show MCing, satire |
+| **דנה אלמוג** | F | TV panelist-pundit | panel prep, debate prep, op-eds, soundbite speeches, hostile-press Q&A |
+| **איתמר חוזה** | M | veteran journalist | long-form features, corporate biographies, retrospective speeches, investigative pieces |
+| **נועה אופק** | F | contemporary creator | vulnerable LinkedIn, podcast intros, intimate small-group keynotes, founder-personal newsletters |
+
+User can select by name ("voice = יואל" / "speak as שירה") or let the skill auto-select.
+
+---
 
 ## Quick grammar reference
 
@@ -125,18 +225,19 @@ For full rules see `references/grammar_layer.md`. Most-used shortcuts:
 - לפוש → מפוש / פוש / אפוש
 - למרג' → ממרג' / מרג' / אמרג'
 - לשיפ → משיפ / שיפ / אשיפ
-- לריוויו → מריווי / ריווה / אריווה (variant: מריוויו / ריוויו / אריוויו)
 - לדיבג → מדבג / דיבג / אדבג
-- לריפקטור → מריפקטר / ריפקטר / אריפקטר
+- לריפקטר → מריפקטר / ריפקטר / אריפקטר
 - לסקייל → מסקייל / סקייל / אסקייל
 - לפיין-טיון → מפיין-טיון / פיין-טיון / אפיין-טיון
 - לאמבד → מאמבד / אמבד / אאמבד
 
 **Noun gender (masculine unless noted):**
 - פיצ'ר (ז') • באג (ז') • ספרינט (ז') • דשבורד (ז') • פייפליין (ז') • מודל (ז') • פרומפט (ז') • טיקט (ז') • רילייס (ז') • דיפלוימנט (ז')
-- Exceptions (feminine): גרסה (נ') • מערכת (נ') • ארכיטקטורה (נ') • תשתית (נ')
+- Exceptions (feminine): גרסה (נ') • מערכת (נ') • ארכיטקטורה (נ') • תשתית (נ') • פלטפורמה (נ')
 
 **Plural:** almost universally `-ים` regardless of source-language gender (פיצ'רים, באגים, דשבורדים, מודלים, פרומפטים).
+
+---
 
 ## Anti-patterns — never produce these
 
@@ -145,26 +246,61 @@ See `references/anti_patterns.md` for the full table. Top offenders:
 | ❌ Wrong | ✅ Correct | Why |
 |---|---|---|
 | עשינו דפלויאינג של הפיצ'ר | דיפלוינו את הפיצ'ר | -ing suffix is not Hebrew morphology |
-| לעשות קומיט | לקומיט | Periphrastic form is dated; pi'el verb form is current 2025 usage |
+| לעשות קומיט | לקומיט | Periphrastic form is dated; pi'el verb form is current 2026 usage |
 | הסטיקהולדרים | הסטייקהולדרים | Double vowels preserved in modern transliteration |
-| המנהל של הפרודקט | מנהל המוצר *or* ה-Product Manager | Hybrid construct-with-של is broken; use smikhut or full English |
+| המנהל של הפרודקט | מנהל המוצר *or* ה-Product Manager | Hybrid construct-with-של is broken |
 | בMCP | ב-MCP | Hebrew prefix attaches to English-script term with hyphen |
 | פיצ'רות | פיצ'רים | Loanword plural is -ים regardless of source gender |
+| הצ'אטGPT שלנו | המודל שלנו / ה-LLM שלנו / Claude שלנו | Dated 2022 buzzword usage |
+| בינה מלאכותית גנרטיבית (buzzword) | AI / מודל גנרטיבי (precise) | Dated 2023 over-use |
+
+---
+
+## Validation by output type — what gets checked
+
+| Check | Rewrite | Pitch | Speech | Talking cards | Teleprompter |
+|---|---|---|---|---|---|
+| Hebrew grammar (10-point) | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Corpus-grounded jargon | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Persona consistency | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Anti-patterns absent | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Structural template match | — | ✓ | ✓ | ✓ | ✓ |
+| Target length / time | — | ✓ | ✓ | — | ✓ |
+| Breath-point line breaks | — | — | ✓ | — | ✓ |
+| Speaker annotations | — | — | ✓ | — | ✓ |
+| Landing line memorizable | — | ✓ | ✓ | ✓ | ✓ |
+| Card-fits-in-glance | — | — | — | ✓ | — |
+| Numbers digital | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+---
 
 ## Test cases
 
-Five v0 test cases live in `tests/test_cases.md`, one per register. Pass criteria: ≥3/5 expected jargon terms used correctly and 0 grammar errors. Results logged in `tests/test_results_v0.md`.
+Test cases live in `tests/test_cases.md`. v0.1.0 had 5 register tests (all passing — see `tests/test_results_v0.md`). v0.2.0 adds:
+- 6 persona-consistency tests (one per persona, applied to a standard prompt)
+- 4 output-type tests (pitch, speech, talking-cards, teleprompter — independent of persona)
+
+See `tests/` for current coverage.
+
+---
 
 ## Related skills (do not duplicate)
 
-- `hebrew-content-writer` — general Hebrew register, smichut, et marker, ktiv maleh, gender — **invoke for non-tech content**
+- `hebrew-content-writer` — general Hebrew register, smikhut, et marker, ktiv maleh, gender — **invoke for non-tech content**
 - `hebrew-rtl-best-practices` — CSS logical properties, dir attributes, bidi
 - `hebrew-document-generator` — Hebrew PDF/DOCX/PPTX
 - `hebrew-i18n` — date/currency formatting, plural forms, bidi mixed content
+- `speech-design` — meta-design of a keynote (structure-before-words). Pair with this skill: speech-design produces structure, ah-sheli-gibor produces voiced Hebrew.
+- `speech-rehearse` — delivery coaching against a transcript. Pair with this skill: ah-sheli-gibor produces the script, speech-rehearse coaches the delivery.
 
-This skill is the **tech-jargon overlay** on top of `hebrew-content-writer`. Where the two conflict on grammar fundamentals, `hebrew-content-writer` wins.
+This skill is the **production layer** on top of `hebrew-content-writer`. Where the two conflict on grammar fundamentals, `hebrew-content-writer` wins. For voice, structure, and persona choice — this skill leads.
+
+---
 
 ## Versioning
 
-v0.1.0 — scaffold + ~30 seed corpus entries + 5 test cases + full methodology.
-Roadmap: v0.2.0 expands corpus to 200 2025-dated entries and tests to 20.
+- **v0.1.0** — scaffold + ~30 seed corpus entries + 5 register tests + rewrite-only methodology
+- **v0.1.1** — npx installer added
+- **v0.2.0** (current) — adds: 6 personas with full profiles, 4 new output types (pitch / speech / talking-cards / teleprompter), interview protocol (STEP 0), formal validation pass (STEP 5 — grammar + jargon currency + persona consistency + anti-patterns), upgraded description to 2026
+- **v0.3.0** (planned) — corpus expansion to 100 entries (70% 2025–2026 web-dated), persona signature-phrase validation against fresh web sources, automated grammar validation via DictaBERT integration
+- **v1.0.0** (planned) — 300+ corpus entries, additional personas (Arabic-Hebrew, religious-Hebrew), persona learning from user-supplied samples
