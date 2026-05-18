@@ -67,12 +67,17 @@ RULES = [
     # CATEGORY E — Definite article
     (
         "E1", "definite-article",
-        # Match noun NOT starting with ה (so we don't false-positive on already-articled forms)
-        # followed by demonstrative
-        r"(?<![א-ת])(?!ה)([א-ת]{3,})\s+(הזה|הזאת|הזו|הזאתי|אלה|אלו)\b",
+        # Match noun + demonstrative, EXCLUDING:
+        #   - nouns starting with ה (already articled)
+        #   - nouns starting with ו (vav-conjunction; ו-prefix collapses article)
+        #   - nouns starting with ב/ל/מ (prefix-collapsed form: בחדר הזה = "in this room",
+        #     where the article is contracted into the prefix)
+        # This trades some recall for fewer false positives. For full accuracy use
+        # DictaBERT-based check (model mode) which has morphological knowledge.
+        r"(?<![א-ת])(?![הובלמ])([א-ת]{3,})\s+(הזה|הזאת|הזו|הזאתי|אלה|אלו)\b",
         "warning",
-        "Possible missing definite article ה before demonstrative.",
-        "Add ה- to the preceding noun: 'הנחה הזאת' → 'ההנחה הזאת'.",
+        "Possible missing definite article ה before demonstrative (regex check; may have false positives on prefixed forms — DictaBERT mode is authoritative).",
+        "If the noun is standalone (no ב/ל/מ/ו prefix) and not already articled, add ה-.",
     ),
     (
         "E2", "definite-article",
