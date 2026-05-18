@@ -1,0 +1,47 @@
+{
+  "author": "skills-il",
+  "version": "0.1.0",
+  "category": "language-tools",
+  "tags": {
+    "he": [
+      "עברית-טכנולוגית",
+      "ז'רגון",
+      "כתיבה-מחדש",
+      "סטארטאפ",
+      "תל-אביב",
+      "בניין-פיעל",
+      "סמיכות",
+      "קוד-סוויצ'ינג",
+      "ישראל"
+    ],
+    "en": [
+      "israeli-tech-hebrew",
+      "jargon",
+      "rewriting",
+      "startup-nation",
+      "tel-aviv",
+      "binyan-piel",
+      "smikhut",
+      "code-switching",
+      "register",
+      "israel"
+    ]
+  },
+  "display_name": {
+    "he": "אח שלי גיבור",
+    "en": "Ah Sheli Gibor"
+  },
+  "display_description": {
+    "he": "כתיבה מחדש של כל טקסט לעברית טכנולוגית ישראלית אותנטית של 2025 (רגיסטר תל-אביבי של סטארטאפים), עם דקדוק נכון: בניין פיעל לפעלים אנגליים, מגדר נכון לשמות-עצם, סמיכות תקינה, וקוד-סוויצ'ינג עם תחיליות מקפים. תומך בחמישה רגיסטרים: סלאק/סטנדאפ, בלוג טכני, לינקדאין, פיץ' למשקיעים, ומסמך PR/RFC. השתמשו כשרוצים שטקסט יישמע כמו שמהנדס במאנדיי, וויקס או מובילאיי באמת היה כותב אותו. לא מתאים לתרגום עברית כללי, מסמכים אקדמיים פורמליים, תוכן לא-טכני, או יצירת מסמכים פיזיים.",
+    "en": "Rewrite any text into authentic 2025-era Israeli tech Hebrew (Tel Aviv startup register) with correct grammar: binyan pi'el for anglicized verbs, accurate noun gender, proper smikhut, and hyphen-prefixed code-switching. Supports five registers: slack/standup, technical-blog, linkedin, investor-pitch, pr-rfc. Use when you want text to sound like a Monday/Wix/Mobileye engineer actually wrote it. Do NOT use for general Hebrew translation, formal Academy-of-Hebrew documents, non-tech content, or physical document generation."
+  },
+  "supported_agents": [
+    "claude-code",
+    "cursor",
+    "github-copilot",
+    "windsurf",
+    "opencode",
+    "codex",
+    "gemini-cli"
+  ]
+}
