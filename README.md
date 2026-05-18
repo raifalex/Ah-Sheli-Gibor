@@ -6,6 +6,88 @@ A Claude Skill for **authentic Israeli tech Hebrew rewriting**. Receives any inp
 
 ---
 
+## Installation
+
+### One-line install (recommended)
+
+Run from any terminal — no clone, no manual setup:
+
+```sh
+npx github:raifalex/Ah-Sheli-Gibor
+```
+
+This installs the skill into `~/.claude/skills/ah-sheli-gibor/`. Restart Claude Code afterward so it discovers the new skill.
+
+### After publishing to npm
+
+Once `ah-sheli-gibor` is published on the npm registry, you can run:
+
+```sh
+npx ah-sheli-gibor
+```
+
+Or install globally:
+
+```sh
+npm install -g ah-sheli-gibor
+ah-sheli-gibor
+```
+
+### Installer options
+
+```sh
+npx ah-sheli-gibor                        # install to ~/.claude/skills/
+npx ah-sheli-gibor --update               # git pull latest changes
+npx ah-sheli-gibor --uninstall            # remove the skill
+npx ah-sheli-gibor --target <path>        # install to a custom path
+npx ah-sheli-gibor --dry-run              # print what would happen
+npx ah-sheli-gibor --help                 # show all options
+```
+
+The installer needs Node ≥14 and `git` on your `PATH`.
+
+### Manual install
+
+If you prefer to clone directly:
+
+```sh
+mkdir -p ~/.claude/skills
+git clone --depth 1 https://github.com/raifalex/Ah-Sheli-Gibor.git ~/.claude/skills/ah-sheli-gibor
+```
+
+### Update
+
+```sh
+npx ah-sheli-gibor --update
+```
+
+Or manually:
+
+```sh
+cd ~/.claude/skills/ah-sheli-gibor && git pull
+```
+
+### Uninstall
+
+```sh
+npx ah-sheli-gibor --uninstall
+```
+
+### Verify the install
+
+After installation and a Claude Code restart, the skill should appear in your available-skills list. Test it:
+
+```
+"rewrite the following in Israeli tech Hebrew, slack register:
+We deployed the new search feature to prod last night."
+```
+
+You should see Claude pick up the `ah-sheli-gibor` skill and produce something like:
+
+> חברה, דיפלוינו אתמול בלילה את פיצ'ר החיפוש החדש לפרוד.
+
+---
+
 ## What this is
 
 This is **rewriting, not translation**. A translation matches words. A rewrite reconstructs the argument from the inside out, in the voice of the target community.

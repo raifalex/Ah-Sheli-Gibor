@@ -1,0 +1,61 @@
+{
+  "name": "ah-sheli-gibor",
+  "version": "0.1.0",
+  "description": "Claude Skill for rewriting any text into authentic 2025-era Israeli tech Hebrew. Correct pi'el binyan, gender, smikhut, and 5-register awareness (slack/blog/linkedin/pitch/rfc).",
+  "bin": {
+    "ah-sheli-gibor": "./bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "SKILL.md",
+    "metadata.json",
+    "corpus/",
+    "references/",
+    "tests/",
+    "examples/",
+    "README.md",
+    "CONTRIBUTING.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node bin/install.js --dry-run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raifalex/Ah-Sheli-Gibor.git"
+  },
+  "homepage": "https://github.com/raifalex/Ah-Sheli-Gibor#readme",
+  "bugs": {
+    "url": "https://github.com/raifalex/Ah-Sheli-Gibor/issues"
+  },
+  "keywords": [
+    "claude",
+    "claude-skill",
+    "claude-code",
+    "hebrew",
+    "israeli",
+    "israeli-tech",
+    "rewriting",
+    "i18n",
+    "localization",
+    "ai",
+    "llm",
+    "startup-nation",
+    "tel-aviv",
+    "binyan",
+    "smikhut",
+    "code-switching",
+    "register",
+    "anthropic"
+  ],
+  "author": {
+    "name": "Alexander Raif",
+    "email": "alex.raif86@gmail.com",
+    "url": "https://github.com/raifalex"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
+  "preferGlobal": true
+}
