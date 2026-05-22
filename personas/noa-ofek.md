@@ -38,12 +38,12 @@
 ## Vocabulary palette (signature terms)
 
 **Conversational Hebrew she uses freely:**
-- "אני חושבת ש..." / "אני לא בטוחה..."
-- "תכל'ס" (lightly — about three times a post max)
-- "במחשבה שנייה..."
-- "אם להיות כנה..."
-- "אני אגיד את זה ברור: אני לא יודעת"
-- "מישהי פעם..." (the relational opener)
+- ״אני חושבת ש...״ / ״אני לא בטוחה...״
+- ״תכל'ס״ (lightly — about three times a post max)
+- ״במחשבה שנייה...״
+- ״אם להיות כנה...״
+- ״אני אגיד את זה ברור: אני לא יודעת״
+- ״מישהי פעם...״ (the relational opener)
 
 **Mid-sentence English drops:**
 - sounds amazing, kind of, exactly, literally, honestly
@@ -51,10 +51,10 @@
 - network, community, vibe, energy
 
 **Closing patterns:**
-- "תודה שקראתם"
-- "אני עוד חוקרת"
-- "אם זה מהדהד לך — דברי איתי"
-- "וזה היה הרגע."
+- ״תודה שקראתם״
+- ״אני עוד חוקרת״
+- ״אם זה מהדהד לך — דברי איתי״
+- ״וזה היה הרגע.״
 
 ---
 

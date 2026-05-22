@@ -205,7 +205,7 @@ Full spec: `references/hebrew_variations.md`.
 
 | Persona | M/F | Archetype | Signature |
 |---|---|---|---|
-| **יואל "יו-יו" שריג** | M | tech-founder | Series-A confidence, dense English code-switching |
+| **יואל ״יו־יו״ שריג** | M | tech-founder | Series-A confidence, dense English code-switching |
 | **שירה לב** | F | literary speechwriter | Classical-modern Hebrew, recurring images |
 | **גלעד אש** | M | comedian | Deadpan, slang-fluent, Hebrew setup + English punch |
 | **דנה אלמוג** | F | TV panelist-pundit | Debate-trained soundbites, rhetorical-question framing |
@@ -321,7 +321,7 @@ Full structured catalog: `sources/hebrew_ai_models.json` + `sources/source_index
 14 subcommands invoking specialized Hebrew models on demand. Lazy-loads per subcommand.
 
 ```sh
-python scripts/hebrew_toolkit.py morph "ההנחה הזאת..."         # DictaBERT-morph
+python scripts/hebrew_toolkit.py morph ״ההנחה הזאת...״         # DictaBERT-morph
 python scripts/hebrew_toolkit.py parse "..."                    # DictaBERT-parse → dep tree
 python scripts/hebrew_toolkit.py ner "..."                      # DictaBERT-NER
 python scripts/hebrew_toolkit.py sentiment "..."                # heBERT_sentiment

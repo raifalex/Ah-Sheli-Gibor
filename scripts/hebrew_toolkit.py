@@ -538,6 +538,206 @@ def cmd_rubric(args):
     _print_json(template)
 
 
+def cmd_bidi_check(args):
+    """
+    Bidi sanity check — enforces the inversion-causing patterns from
+    SKILL.md "Bidi & RTL output discipline" section.
+
+    Flags:
+      ERROR — ASCII " " quote pair surrounding a Hebrew phrase (should be ״...״)
+      ERROR — ASCII hyphen flanked by Hebrew letters on both sides
+      ERROR — Line starts with a digit (or LTR symbol) and contains Hebrew (needs RLM)
+      WARN  — Latin word (>=2 chars) embedded inside Hebrew without isolation
+
+    Skips:
+      - Fenced code blocks (```...```)
+      - Inline code spans (`...`)
+      - Standalone geresh (single ' after a Hebrew letter — legitimate Hebrew)
+      - Standalone gershayim acronym pattern (X"Y where X and Y are single Hebrew letters)
+
+    Exit codes: 0 = clean, 1 = warnings only, 2 = errors (block delivery).
+    """
+    import re
+    text = _read_input(args.text)
+
+    HEB = r"[֐-׿]"
+    MAX_PAIR_LEN = 80
+    violations = []
+    in_code_fence = False
+
+    def strip_code_spans(s):
+        return re.sub(r"`[^`\n]*`", lambda m: " " * len(m.group(0)), s)
+
+    # Detect frontmatter line range
+    lines_list = text.splitlines()
+    frontmatter_range = None
+    if lines_list and lines_list[0].strip() == "---":
+        for i, ln in enumerate(lines_list[1:], start=1):
+            if ln.strip() == "---":
+                frontmatter_range = (1, i + 1)  # 1-indexed inclusive
+                break
+
+    for lineno, line in enumerate(lines_list, start=1):
+        if frontmatter_range and frontmatter_range[0] <= lineno <= frontmatter_range[1]:
+            continue
+        if line.lstrip().startswith("```"):
+            in_code_fence = not in_code_fence
+            continue
+        if in_code_fence:
+            continue
+
+        scan = strip_code_spans(line)
+
+        # Rule 1 — ASCII " ... " pair wrapping a Hebrew-containing phrase (≤80 chars)
+        # Opening " at word boundary; closing " at word boundary. Excludes the legitimate
+        # acronym gershayim pattern (צה"ל) where Hebrew flanks the quote.
+        for m in re.finditer(
+            r'(?:^|(?<=[\s\(\[—\-,;:]))"([^"\n]{2,}?)"(?=[\s\)\]\.,;:!?—\-]|$)',
+            scan,
+        ):
+            inner = m.group(1)
+            if len(inner) > MAX_PAIR_LEN:
+                continue
+            if re.search(HEB, inner):
+                violations.append({
+                    "line": lineno,
+                    "rule": "1-ascii-quotes-wrap-hebrew",
+                    "severity": "error",
+                    "match": m.group(0),
+                    "fix": f'Replace "...":  ״{inner}״ (U+05F4 gershayim)',
+                })
+
+        # Rule 2 — ASCII hyphen flanked by Hebrew letters
+        for m in re.finditer(rf'({HEB})-({HEB})', scan):
+            violations.append({
+                "line": lineno,
+                "rule": "2-ascii-hyphen-in-hebrew",
+                "severity": "error",
+                "match": m.group(0),
+                "fix": f"Replace -: {m.group(1)}־{m.group(2)} (U+05BE maqaf)",
+            })
+
+        # Rule 3 — Line starts with a digit (weak char) and contains Hebrew.
+        # Modern markdown renderers infer base direction from first strong char per paragraph,
+        # so this is usually OK — but in plaintext / clipboard / some terminals, prepending RLM
+        # guarantees correct direction. Warning, not error.
+        if re.search(HEB, scan):
+            leading = scan.lstrip(" \t#*->|")
+            if leading and leading[0] in "0123456789" and not line.lstrip(" \t#*->|").startswith("‏"):
+                violations.append({
+                    "line": lineno,
+                    "rule": "3-digit-leading-hebrew-line",
+                    "severity": "warning",
+                    "match": line[:50] + ("..." if len(line) > 50 else ""),
+                    "fix": "Consider prepending ‏ (U+200F RLM) before the leading digit for plaintext safety",
+                })
+
+        # Rule 4 — Latin word (>=2 chars) embedded in Hebrew sentence without isolation
+        for m in re.finditer(rf'{HEB}\s+([A-Za-z][A-Za-z0-9]+)\s+{HEB}', scan):
+            start = m.start(1)
+            window = line[max(0, start - 2):start]
+            if "⁨" not in window and "⁦" not in window and "⁧" not in window:
+                violations.append({
+                    "line": lineno,
+                    "rule": "4-unisolated-latin-in-hebrew",
+                    "severity": "warning",
+                    "match": m.group(0).strip(),
+                    "fix": f"Wrap as ⁨{m.group(1)}⁩ (U+2068 FSI … U+2069 PDI)",
+                })
+
+    errors = [v for v in violations if v["severity"] == "error"]
+    warnings = [v for v in violations if v["severity"] == "warning"]
+
+    if args.json:
+        _print_json({"violations": violations, "errors": len(errors), "warnings": len(warnings)})
+    else:
+        if not violations:
+            print("✓ bidi-check clean — 0 violations")
+        else:
+            print(f"bidi-check found {len(errors)} error(s), {len(warnings)} warning(s):")
+            for v in violations:
+                marker = "✗" if v["severity"] == "error" else "⚠"
+                print(f"  {marker} line {v['line']} [{v['rule']}]: {v['match']!r}")
+                print(f"      fix: {v['fix']}")
+
+    if errors:
+        sys.exit(2)
+    if warnings:
+        sys.exit(1)
+    sys.exit(0)
+
+
+def cmd_bidi_fix(args):
+    """
+    Apply auto-fixable bidi substitutions:
+      - ASCII " ... " pairs wrapping Hebrew (≤80 chars) → ״ ... ״ (U+05F4 gershayim)
+      - ASCII hyphen between two Hebrew letters → ־ (U+05BE maqaf)
+
+    Skips (preserves as-is):
+      - YAML frontmatter region (between leading --- markers)
+      - Fenced code blocks (```...```)
+      - Quote pairs whose content is >80 chars (those are structural delimiters
+        like YAML strings or JSON values, not Hebrew phrase quotes)
+      - Standalone ' after Hebrew (legitimate geresh — פיצ'ר, נ')
+      - Standalone " between single Hebrew letters (legitimate acronym gershayim — צה"ל)
+
+    Prints fixed text to stdout.
+    """
+    import re
+    text = _read_input(args.text)
+
+    HEB = r"[֐-׿]"
+    MAX_PAIR_LEN = 80  # real Hebrew quoted phrases are short; longer = structural
+
+    lines = text.split("\n")
+    in_code_fence = False
+    in_frontmatter = False
+    out_lines = []
+
+    # Detect frontmatter: leading --- on line 0, closes on next ---
+    frontmatter_open_line = None
+    if lines and lines[0].strip() == "---":
+        for i, ln in enumerate(lines[1:], start=1):
+            if ln.strip() == "---":
+                frontmatter_open_line = (0, i)
+                break
+
+    def fix_quote_pair(m):
+        inner = m.group(1)
+        if len(inner) > MAX_PAIR_LEN:
+            return m.group(0)
+        if re.search(HEB, inner):
+            return f"״{inner}״"
+        return m.group(0)
+
+    quote_re = re.compile(
+        r'(?:^|(?<=[\s\(\[—\-,;:]))"([^"\n]{2,}?)"(?=[\s\)\]\.,;:!?—\-]|$)'
+    )
+    hyphen_re = re.compile(rf"({HEB})-({HEB})")
+
+    for lineno, line in enumerate(lines):
+        # Skip frontmatter
+        if frontmatter_open_line and frontmatter_open_line[0] <= lineno <= frontmatter_open_line[1]:
+            out_lines.append(line)
+            continue
+
+        # Toggle fence
+        if line.lstrip().startswith("```"):
+            in_code_fence = not in_code_fence
+            out_lines.append(line)
+            continue
+        if in_code_fence:
+            out_lines.append(line)
+            continue
+
+        line = quote_re.sub(fix_quote_pair, line)
+        for _ in range(2):
+            line = hyphen_re.sub(r"\1־\2", line)
+        out_lines.append(line)
+
+    print("\n".join(out_lines), end="" if not text.endswith("\n") else "\n")
+
+
 # ---------------------------------------------------------------------------
 # CLI dispatch
 # ---------------------------------------------------------------------------
@@ -611,6 +811,15 @@ def main():
     p.add_argument("output_file", help="Path to output text (or @file or literal)")
     p.add_argument("source_file", nargs="?", help="Optional: path to source text for consistency-axis grading")
     p.set_defaults(func=cmd_rubric)
+
+    p = subparsers.add_parser("bidi-check", help="Check Hebrew output for bidi/RTL violations (STEP 5h)")
+    p.add_argument("text", help="Hebrew text or path to file (or @file)")
+    p.add_argument("--json", action="store_true", help="Emit JSON instead of human-readable")
+    p.set_defaults(func=cmd_bidi_check)
+
+    p = subparsers.add_parser("bidi-fix", help="Auto-fix bidi violations (ASCII quotes/hyphens → Hebrew equivalents)")
+    p.add_argument("text", help="Hebrew text or path to file (or @file)")
+    p.set_defaults(func=cmd_bidi_fix)
 
     args = parser.parse_args()
     args.func(args)

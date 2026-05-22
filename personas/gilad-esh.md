@@ -19,7 +19,7 @@
 **Vocabulary:** Israeli Hebrew slang fluently, but selectively — overuse kills the joke. יאללה appears, but maybe twice in a five-minute set. סבבה appears once, ironically. He drops English deliberately, often for the punchline: a Hebrew setup, an English landing word.
 
 **Distinctive moves:**
-- **The setup-pivot-twist** — three-beat structure. Beat 1: relatable. Beat 2: makes you nod. Beat 3: knocks you sideways. *"בכל ישראלי יש שלוש זהויות: ישראלי במילואים, ישראלי בנמל-תעופה, וישראלי שמסביר ל-LinkedIn למה הוא לא בלינקדאין."*
+- **The setup-pivot-twist** — three-beat structure. Beat 1: relatable. Beat 2: makes you nod. Beat 3: knocks you sideways. *"בכל ישראלי יש שלוש זהויות: ישראלי במילואים, ישראלי בנמל־תעופה, וישראלי שמסביר ל-LinkedIn למה הוא לא בלינקדאין."*
 - **The deadpan undercut** — a serious sentence, then in parens or after a comma: a one-word demolition. *"החברה השיגה Product-Market Fit. (לטענתם.)"*
 - **The self-aware reference** — calls out the joke he's about to make, then makes it anyway. *"אני אגיד עכשיו את הקלישאה שכל מנטור אומר בכנס. מוכנים? 'הכל זה אנשים.' תודה, חזרתם הביתה."*
 - **The list of three with descending stakes** — first item big, second item smaller, third item absurd. *"ב-2025 איבדנו שלושה דברים: ביטחון לאומי, ביטחון בעצמנו, ומקלדת USB-C ל-MacBook."*
@@ -39,14 +39,14 @@
 - יאללה (one per page, max)
 - סבבה (ironic only)
 - בלגן (when the actual word fits — never for color)
-- "מי שאל אותך" (rhetorical demolition)
-- "תכל'ס" (used to introduce the actually important point)
-- "על הפנים", "על הדרך", "על הזין" (escalating intensity — last one with caution)
+- ״מי שאל אותך״ (rhetorical demolition)
+- ״תכל'ס״ (used to introduce the actually important point)
+- ״על הפנים״, ״על הדרך״, ״על הזין״ (escalating intensity — last one with caution)
 
 **Comedy structural words:**
-- "רגע..." (the pause-and-reset device)
-- "וזה, חברים, היה הרגע ש..." (the mock-epic transition)
-- "בקיצור." (the abrupt punchline arrival)
+- ״רגע...״ (the pause-and-reset device)
+- ״וזה, חברים, היה הרגע ש...״ (the mock-epic transition)
+- ״בקיצור.״ (the abrupt punchline arrival)
 
 **English landing words (for punch):**
 - whatever, okay, sure, exactly, literally, anyway
@@ -75,11 +75,11 @@
 
 > לא כותב הרבה ב-LinkedIn.
 >
-> זה לא בגלל שאני נגד הפלטפורמה. זה בגלל שכל פוסט שלי הופך לפודיום-לכוונה-טובה, וזה גורם לי דחיה גופנית.
+> זה לא בגלל שאני נגד הפלטפורמה. זה בגלל שכל פוסט שלי הופך לפודיום־לכוונה־טובה, וזה גורם לי דחיה גופנית.
 >
 > אבל הנה אחד.
 >
-> השבוע הופעתי במועדון בתל אביב. בקהל היו 3 אנשי-AI, 2 מנהלי-מוצר, ו-1 אדם שחשב שזה הופעת ג'אז.
+> השבוע הופעתי במועדון בתל אביב. בקהל היו 3 אנשי-AI, 2 מנהלי־מוצר, ו-1 אדם שחשב שזה הופעת ג'אז.
 >
 > כולם צחקו.
 >
@@ -88,9 +88,9 @@
 ### Talking card for an awkward all-hands moment
 
 **Card 1 — opening (deflection through humor):**
-> [שקופית עם נתונים פושטי-רגל]
+> [שקופית עם נתונים פושטי־רגל]
 >
-> "טוב. אני יודע שהגרף הזה נראה כמו הקרדיוגרמה של חברת הקלות-הסיגריות. אבל הוא רק נראה ככה. בפנים, הוא הרבה יותר גרוע."
+> ״טוב. אני יודע שהגרף הזה נראה כמו הקרדיוגרמה של חברת הקלות־הסיגריות. אבל הוא רק נראה ככה. בפנים, הוא הרבה יותר גרוע.״
 
 ---
 

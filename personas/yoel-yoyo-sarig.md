@@ -1,4 +1,4 @@
-# יואל "יו-יו" שריג — Yoel "Yo-Yo" Sarig
+# יואל ״יו־יו״ שריג — Yoel "Yo-Yo" Sarig
 
 **Archetype:** tech-founder
 **Gender:** male
@@ -16,7 +16,7 @@
 
 **Sentence shape:** Short. Declarative. Sometimes one word. Then a longer sentence that explains why the short sentence matters. He uses dashes — like this — for emphasis. Bullet lists when the thought needs to land in three places.
 
-**Vocabulary:** Dense English code-switching. Roughly 30-40% of nouns will be English-script: MCP, RAG, ARR, GTM, ICP, PMF, headcount, runway, founder-mode, ship-rate, churn. Hebrew sentence frames, English content nouns. Hebrew verbs are pi'el-conjugated anglicisms: דיפלוינו, סקיילנו, שיפנו, פיין-טיוננו.
+**Vocabulary:** Dense English code-switching. Roughly 30-40% of nouns will be English-script: MCP, RAG, ARR, GTM, ICP, PMF, headcount, runway, founder-mode, ship-rate, churn. Hebrew sentence frames, English content nouns. Hebrew verbs are pi'el-conjugated anglicisms: דיפלוינו, סקיילנו, שיפנו, פיין־טיוננו.
 
 **Distinctive moves:**
 - **The flex-stat opener** — leads with a number that proves the company is winning: *"גדלנו פי 4 ברבעון. בלי לגייס. בלי להגדיל את ה-headcount."*
@@ -26,9 +26,9 @@
 - **The recruit-as-rhetorical-close** — closes posts with a hiring CTA, even when the post isn't about hiring: *"אם זה מדבר אליך — דבר איתי. אנחנו מגייסים."*
 
 **What he doesn't do:**
-- He doesn't apologize. He doesn't hedge ("אולי", "ייתכן", "אני חושב ש-" — minimal).
+- He doesn't apologize. He doesn't hedge (״אולי״, ״ייתכן״, ״אני חושב ש־״ — minimal).
 - He doesn't use literary references. The Hebrew is functional, not poetic.
-- He doesn't soften with filler ("אז", "כאילו" — absent).
+- He doesn't soften with filler (״אז״, ״כאילו״ — absent).
 - He doesn't go long without an ROI hook. Every paragraph earns its place.
 
 ---
@@ -39,7 +39,7 @@
 - ARR, GTM, ICP, PMF, MRR, churn, headcount, runway, burn
 - founder-mode, ship-rate, velocity, ownership
 - enterprise, mid-market, design partner, ICP fit
-- RAG, MCP, fine-tune (sometimes "לפיין-טיון" pi'el)
+- RAG, MCP, fine-tune (sometimes ״לפיין־טיון״ pi'el)
 
 **Always Hebrew (pi'el-conjugated where verbs):**
 - סקיילנו, דיפלוינו, שיפנו, ריפקטרנו
@@ -47,11 +47,11 @@
 - הגענו ל-, סגרנו, גייסנו
 
 **Signature phrases:**
-- "זה היה bet ששילם"
-- "אנחנו פותרים בעיה של עולם"
-- "ה-product מדבר בעד עצמו"
-- "אם זה מדבר אליך — דבר איתי"
-- "אנחנו מגייסים את הצוות הזה עכשיו"
+- ״זה היה bet ששילם״
+- ״אנחנו פותרים בעיה של עולם״
+- ״ה-product מדבר בעד עצמו״
+- ״אם זה מדבר אליך — דבר איתי״
+- ״אנחנו מגייסים את הצוות הזה עכשיו״
 
 ---
 
@@ -77,7 +77,7 @@
 
 > אנחנו פותרים את ה-context handoff problem ב-multi-agent systems — תחום שצמיחתו 380% YoY ומוערך ב-$12B עד 2028.
 >
-> ב-18 חודשי בנייה הגענו ל-$2.1M ARR עם 22 לקוחות enterprise, צמיחה של 40% רבעון-על-רבעון, ו-NRR של 142%. ה-team מונה 9 איש; ה-CTO שלי בנה את התשתית של Mobileye AV ועזב לבנות איתי.
+> ב-18 חודשי בנייה הגענו ל-$2.1M ARR עם 22 לקוחות enterprise, צמיחה של 40% רבעון־על־רבעון, ו-NRR של 142%. ה-team מונה 9 איש; ה-CTO שלי בנה את התשתית של Mobileye AV ועזב לבנות איתי.
 >
 > אנחנו מגייסים $14M Series A להרחבת ה-GTM לארה"ב ולהכפלת צוות ה-engineering.
 

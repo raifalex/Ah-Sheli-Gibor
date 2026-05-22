@@ -1,6 +1,6 @@
 ---
 name: ah-sheli-gibor
-description: "The comprehensive Hebrew production suite. Produces authentic 2026-era Hebrew across 25+ output types (rewrite, pitch, speech, talking-cards, teleprompter, book-chapter, book-proposal, manuscript-edit, article-feature, article-op-ed, article-news, article-profile, course-material, report-executive, report-business, report-whitepaper, report-incident, research-paper, research-proposal, thesis-chapter, business-plan, rfp-response, case-study, comms, tech-doc, product-spec) and 15 Hebrew variation modes (tech-general default, software-engineering, cybersecurity, product-management, defense-aerospace, ai-ml-research, startup-fundraising, gen-z-creator, legal-technical, medical, biblical-rabbinic, gender-emotional, slang-cultural, bilingual, creative-lyrics) plus 4 community sub-filters (arabic-hebrew-bilingual, haredi-tech, academic-formal, diaspora-israeli). 6 voice personas (יואל / שירה / גלעד / דנה / איתמר / נועה). Interviews user for output-type, context, purpose, mood, GOAL, variation mode, sub-filter, persona before writing. Auto-selects appropriate AI source per task from 124-entry catalog (DictaBERT / DictaLM-3.0 / hebEMO / Legal-heBERT / hebrew_medical_ner / BEREL / ivrit-ai Whisper / etc.). Six-stage validation + 4-axis Hebrew-labeled rubric (רלוונטיות / קוהרנטיות / עקביות / רהיטות). Ships with hebrew_toolkit.py for 14 specialized model invocations. Documents NVIDIA TensorRT-LLM production deployment. Use for any professional Hebrew production task: tech, defense, academic, legal, medical, journalism, books, courses, reports, research. Do NOT use for general Hebrew translation (use DeepL/DictaLM), RTL CSS (use hebrew-rtl-best-practices), Hebrew document generation (use hebrew-document-generator)."
+description: "Hebrew production suite for authentic 2026-era Israeli writing. 25+ output types (rewrite, pitch, speech, talking-cards, teleprompter, books, articles, course material, reports, research, business plans, RFPs, tech docs). 15 variation modes spanning tech, cybersecurity, defense, AI/ML, startup, legal, medical, biblical, slang, bilingual + 4 community sub-filters. 6 voice personas (Yoel, Shira, Gilad, Dana, Itamar, Noa). Interviews for output-type, context, goal, mood, variation, persona before writing. Auto-selects from 124-entry Hebrew AI source catalog (DictaBERT, DictaLM, hebEMO, Legal-heBERT, BEREL, ivrit-ai Whisper). Six-stage validation + 4-axis Hebrew rubric (רלוונטיות, קוהרנטיות, עקביות, רהיטות) + bidi/RTL discipline. Ships hebrew_toolkit.py with 14 specialized model commands plus bidi-check/bidi-fix. Use for professional Hebrew tasks: tech, defense, academic, legal, medical, journalism, books. Do NOT use for general translation, RTL CSS, or document file generation."
 license: MIT
 allowed-tools: ''
 compatibility: Works with Claude, Claude Code, Cursor. Optimized for Claude Sonnet 4.6+ and Claude Opus 4.7. Hebrew RTL rendering depends on the host environment.
@@ -8,7 +8,7 @@ compatibility: Works with Claude, Claude Code, Cursor. Optimized for Claude Sonn
 
 # Ah Sheli Gibor — The Hebrew Production Suite
 
-> "אח שלי גיבור" — the affectionate Israeli address. The comprehensive Hebrew production skill across every format and register.
+> ״אח שלי גיבור״ — the affectionate Israeli address. The comprehensive Hebrew production skill across every format and register.
 
 ## What this skill does
 
@@ -59,12 +59,84 @@ Produces authentic 2026-era Hebrew across **25+ output types** spanning rewritin
 
 ### The 6 personas (full profiles in `personas/`)
 
-- **יואל "יו-יו" שריג** (M) — tech-founder, high-energy, dense code-switching
+- **יואל ״יו־יו״ שריג** (M) — tech-founder, high-energy, dense code-switching
 - **שירה לב** (F) — literary speechwriter, classical-modern Hebrew balance
 - **גלעד אש** (M) — comedian, deadpan, slang-fluent but selective
 - **דנה אלמוג** (F) — TV panelist-pundit, debate-tested, sharp soundbites
 - **איתמר חוזה** (M) — veteran feature journalist, patient long-form authority
 - **נועה אופק** (F) — contemporary creator, intimate, vulnerable, fluid Hebrew-English
+
+---
+
+## Bidi & RTL output discipline (CRITICAL — read before generating any Hebrew)
+
+Inverted Hebrew is almost always a bidi-isolation failure, not a character-order bug. The Unicode bidi algorithm (UAX#9) reorders runs based on strong directional characters; when Hebrew is mixed with ASCII quotes, hyphens, digits, or Latin words without proper isolation, LTR-base renderers (terminal, GitHub markdown, chat UI option labels, plaintext clipboard, anything that doesn't infer base direction from the first strong character) display the visual order reversed relative to the logical order.
+
+**These rules are NON-NEGOTIABLE for every Hebrew output this skill produces.**
+
+### Rule 1 — Replace ASCII punctuation inside Hebrew tokens
+
+Inside any Hebrew word, name, compound, or quoted phrase, NEVER use ASCII `"` `'` `-`. Replace with Hebrew script equivalents:
+
+| ASCII (wrong) | Hebrew script (correct) | Codepoint | Purpose |
+|---|---|---|---|
+| `"` | `״` | U+05F4 GERSHAYIM | quotes around Hebrew acronym / nickname |
+| `'` | `׳` | U+05F3 GERESH | apostrophe / single quote |
+| `-` (between Hebrew letters) | `־` | U+05BE MAQAF | Hebrew hyphen / compound joiner |
+
+Examples:
+- ❌ `יואל ״יו־יו״ שריג` — visually inverts in LTR-base renderers
+- ✅ `יואל ״יו־יו״ שריג` — all-strong-Hebrew run, no inversion possible
+- ❌ `RAG-בייסד` — ASCII hyphen between Latin and Hebrew is bidi-ambiguous
+- ✅ `RAG‑בייסד` (U+2011 non-breaking hyphen) or `RAG-בייסד` with explicit isolate `⁨RAG-בייסד⁩`
+- ❌ `דנה אלמוג` followed by a number like `42` on same line without isolation
+- ✅ Prepend `‏` (U+200F RLM) before the line OR isolate the number `⁨ 42 ⁩`
+
+### Rule 2 — Anchor base direction on every Hebrew line
+
+Every paragraph, bullet, table cell, or standalone line that contains Hebrew MUST start with U+200F (RLM) if its first character could be interpreted as weak/LTR (digit, ASCII opening quote, English word, opening parenthesis). The RLM is invisible but pins base direction to RTL.
+
+Markdown source convention: `‏` (the literal U+200F) immediately after the markdown markers, before the visible content:
+
+```
+- ‏**יואל ״יו־יו״ שריג** — tech-founder
+| ‏שירה לב | literary speechwriter |
+```
+
+In free Hebrew prose (no leading ASCII), RLM is optional but harmless.
+
+### Rule 3 — Isolate embedded LTR runs
+
+Any English-script word, model name, product name, version number, URL, or digit cluster inside a Hebrew sentence MUST be wrapped in either:
+
+- Explicit isolates: `⁨...⁩` (FSI…PDI — first-strong isolate to PDI), or
+- Bracket discipline: `[RAG]` / `‏(RAG)‏` with RLM bookends
+
+Skip this only when the embedded run is at end-of-sentence and followed by a Hebrew strong character or period — and even then prefer to isolate for safety.
+
+### Rule 4 — UI labels (AskUserQuestion, menu chips, buttons)
+
+UI label strings render in LTR base direction in most chat/terminal clients. Hebrew labels MUST be Latin-transliterated with Hebrew in parentheses: `Yoel (יואל)`, never raw `יואל`. Free Hebrew prose inside `description` fields is fine because descriptions render with bidi from first strong char.
+
+### Rule 5 — Validation gate (STEP 5h)
+
+Before delivering output, run the bidi sanity check (STEP 5h below). Any unfixed violation blocks delivery.
+
+### Quick reference — character codepoints to memorize
+
+| Char | Codepoint | Name | Use |
+|---|---|---|---|
+| `‏` | U+200F | RLM | direction anchor at line start |
+| `‎` | U+200E | LRM | rare; suppress RTL embedding |
+| `⁧` | U+2067 | RLI | open RTL isolate |
+| `⁦` | U+2066 | LRI | open LTR isolate |
+| `⁨` | U+2068 | FSI | open first-strong isolate (preferred) |
+| `⁩` | U+2069 | PDI | close any isolate |
+| `״` | U+05F4 | gershayim | Hebrew double quote |
+| `׳` | U+05F3 | geresh | Hebrew single quote |
+| `־` | U+05BE | maqaf | Hebrew hyphen |
+
+For programmatic checks: `python scripts/hebrew_toolkit.py bidi-check <file>` flags ASCII punctuation between Hebrew letters and unisolated mixed-direction runs.
 
 ## When to invoke
 
@@ -103,16 +175,40 @@ When invoked, identify what the user supplied and what's missing. The skill need
 | **Mood / tone** | confident / warm / urgent / measured / playful / serious / vulnerable | infer from persona + context |
 | **Goal — what they want to achieve** | "convince investors" / "win a panel debate" / "land emotional impact" / "explain to junior engineers" / "ceremonial address" / "roast / entertain" / "sign a contract" / "clinical documentation" / "religious content" / "production deployment" | infer if not stated, but always state your inference |
 | **Variation mode** | tech-formal (default) / legal-technical / medical / biblical-rabbinic / gender-emotional / slang-cultural / bilingual / creative-lyrics / auto | infer from goal + context (see `references/hebrew_variations.md`) |
-| **Persona** | יואל / שירה / גלעד / דנה / איתמר / נועה / auto | ask once if not specified; "auto" chooses based on output type + goal + variation mode |
+| **Persona** | Yoel (יואל) / Shira (שירה) / Gilad (גלעד) / Dana (דנה) / Itamar (איתמר) / Noa (נועה) / auto | ask once if not specified; "auto" chooses based on output type + goal + variation mode |
 
 **Interview rules:**
 
 - **Ask at most 3 questions** at any one time. Don't drown the user.
 - **Combine related questions** into a single ask when sensible.
-- **If 5/7 variables are clear from context**, proceed without asking — name your inferences in one line ("ממשיך עם: speech, audience=board, goal=convince-investors, mood=urgent, variation=tech-formal, persona=יואל. אם זה לא נכון — תקן אותי.").
+- **If 5/7 variables are clear from context**, proceed without asking — name your inferences in one line (״ממשיך עם: speech, audience=board, goal=convince-investors, mood=urgent, persona=Yoel (יואל). אם זה לא נכון — תקן אותי.״).
 - **Persona "auto"** is fine if the user doesn't have a preference — the skill picks based on the output-type + goal + variation pairing table.
 - **In subsequent turns** in the same session, remember the answers; don't re-ask.
 - **Goal drives rubric weighting** (see `references/output_evaluation_rubric.md` per-goal axis weighting table) — name the goal explicitly so STEP 5g grades correctly.
+
+#### UI rendering — RTL safety rule (CRITICAL)
+
+When asking the user via any **structured UI affordance** (AskUserQuestion options, button labels, menu items, short list-item headers, terminal option chips), **never put Hebrew-only strings in the label**. These UIs render labels in an LTR base direction and isolated Hebrew strings appear reversed character-by-character to the user.
+
+**Rule:** Every persona / variation / mode name in UI labels MUST be one of:
+
+1. **Transliteration-first pairing** — Latin name then Hebrew in parentheses: `Yoel (יואל)`, `Shira (שירה)`, `Gilad (גלעד)`, `Dana (דנה)`, `Itamar (איתמר)`, `Noa (נועה)`.
+2. **Or RTL-isolated** — wrap the Hebrew string in U+2067 (RLI) … U+2069 (PDI) if the UI lets you pass raw Unicode.
+
+Free-flowing Hebrew prose inside `description` fields, response text, or markdown body content is fine — those render in proper bidi context. The rule applies **only to short isolated label strings** in UI controls.
+
+**Canonical UI-safe persona labels (use these verbatim in option labels):**
+
+| UI-safe label | Backing persona file |
+|---|---|
+| Yoel (יואל) — tech-founder | `personas/yoel-yoyo-sarig.md` |
+| Shira (שירה) — literary speechwriter | `personas/shira-lev.md` |
+| Gilad (גלעד) — comedian | `personas/gilad-esh.md` |
+| Dana (דנה) — TV panelist | `personas/dana-almog.md` |
+| Itamar (איתמר) — veteran journalist | `personas/itamar-hoze.md` |
+| Noa (נועה) — contemporary creator | `personas/noa-ofek.md` |
+
+Same rule for variation modes and personas headers in any UI: lead with Latin/English transliteration so the user sees the correct order regardless of the client's bidi handling.
 
 ### STEP 1 — COMPREHEND
 
@@ -188,8 +284,8 @@ Apply the 10-point checklist from `references/grammar_layer.md` §6 plus the exp
 4. Preposition + loanword binding (hyphen for English-script, direct for Hebrew-script) — Category D
 5. Definite article correct after demonstratives/possessives — Category E
 6. Partitive verb agreement (חלקכם חתם, not חתמתם) — Category B
-7. "את" before definite direct objects in scripted text — Category F
-8. Approximation marker כ- before numbers (not "בערך") — Category G
+7. ״את״ before definite direct objects in scripted text — Category F
+8. Approximation marker כ- before numbers (not ״בערך״) — Category G
 9. No filler words in formal registers (אז, כאילו, פשוט, למעשה, בעצם) — Category G
 10. Product names preserved English (AWS, Claude, Anthropic, etc.) — Category H
 
@@ -220,7 +316,7 @@ For each jargon term that fails all three:
 - If the term is uncertain, replace it with a corpus-grounded alternative
 - If no alternative exists in the right register, fall back to standard Hebrew
 
-**Avoid 2022–2023 dated language entirely.** Especially in the AI/ML domain: don't write "ChatGPT שלנו" generically (use "ה-LLM שלנו" or specific model name); don't write "בינה מלאכותית גנרטיבית" as a buzzword (use precisely or skip).
+**Avoid 2022–2023 dated language entirely.** Especially in the AI/ML domain: don't write ״ChatGPT שלנו״ generically (use ״ה-LLM שלנו״ or specific model name); don't write ״בינה מלאכותית גנרטיבית״ as a buzzword (use precisely or skip).
 
 #### 5d — Persona Consistency Check
 
@@ -275,6 +371,22 @@ Output the scores with one-line justification per axis. Example:
 
 For batch / pipeline use: `python scripts/hebrew_toolkit.py rubric <output> <source>` generates the structured template for an LLM-as-judge call.
 
+#### 5h — Bidi sanity check (mandatory gate)
+
+This check enforces the rules in the "Bidi & RTL output discipline" section. Block delivery on any unfixed violation.
+
+For every Hebrew paragraph, bullet, table cell, heading, and code-block-comment in the output, verify:
+
+1. **No ASCII `"` or `'` adjacent to Hebrew letters** — regex: `[֐־׿]["']|["'][֐־׿]`. Replace with `״` (U+05F4) or `׳` (U+05F3).
+2. **No ASCII `-` between two Hebrew letters** — regex: `[֐־׿]-[֐־׿]`. Replace with `־` (U+05BE) or wrap each side in isolates.
+3. **Lines starting with a digit, ASCII punctuation, or Latin word AND containing Hebrew** must be prefixed with `‏` (U+200F RLM). Regex: `^[0-9"'(\[A-Za-z].*[֐־׿]`.
+4. **Embedded Latin runs ≥ 2 chars inside a Hebrew sentence** should be wrapped `⁨...⁩` (U+2068 FSI … U+2069 PDI) — soft warning, not block, unless the run contains punctuation or digits.
+5. **UI labels** (anything passed as an option label to AskUserQuestion or similar) — must not contain Hebrew without a Latin transliteration prefix. Hard block.
+
+Tool-assisted: `python scripts/hebrew_toolkit.py bidi-check <text_or_file>` runs all five checks and emits a fix-suggestion patch.
+
+If any violation found → auto-rewrite the offending substring using the substitutions from the bidi table, then re-run 5h. Do not deliver until 5h returns zero violations.
+
 ### STEP 6 — AUTHENTICITY REVIEW
 
 Final pass. Read the output as if you are a 2026 Israeli engineer / journalist / pundit / founder (matching the persona's role). Apply:
@@ -308,14 +420,14 @@ Full persona files live in `personas/`:
 
 | Persona | Gender | Archetype | Best for |
 |---|---|---|---|
-| **יואל "יו-יו" שריג** | M | tech-founder | investor pitch, LinkedIn announcements, founder town-hall, board meeting |
+| **יואל ״יו־יו״ שריג** | M | tech-founder | investor pitch, LinkedIn announcements, founder town-hall, board meeting |
 | **שירה לב** | F | literary speechwriter | formal keynotes, commencement, memorials, op-eds, founder letters |
 | **גלעד אש** | M | comedian | conference keynote openers, company offsites, awards-show MCing, satire |
 | **דנה אלמוג** | F | TV panelist-pundit | panel prep, debate prep, op-eds, soundbite speeches, hostile-press Q&A |
 | **איתמר חוזה** | M | veteran journalist | long-form features, corporate biographies, retrospective speeches, investigative pieces |
 | **נועה אופק** | F | contemporary creator | vulnerable LinkedIn, podcast intros, intimate small-group keynotes, founder-personal newsletters |
 
-User can select by name ("voice = יואל" / "speak as שירה") or let the skill auto-select.
+User can select by name (״voice = יואל״ / ״speak as שירה״) or let the skill auto-select.
 
 ---
 
@@ -332,7 +444,7 @@ For full rules see `references/grammar_layer.md`. Most-used shortcuts:
 - לדיבג → מדבג / דיבג / אדבג
 - לריפקטר → מריפקטר / ריפקטר / אריפקטר
 - לסקייל → מסקייל / סקייל / אסקייל
-- לפיין-טיון → מפיין-טיון / פיין-טיון / אפיין-טיון
+- לפיין־טיון → מפיין־טיון / פיין־טיון / אפיין־טיון
 - לאמבד → מאמבד / אמבד / אאמבד
 
 **Noun gender (masculine unless noted):**
@@ -504,7 +616,10 @@ Primary source organizations:
 - **v0.2.0** — 6 personas + 4 output types + interview (STEP 0) + initial validation
 - **v0.3.0** — expanded 6-stage validation + phrasing checker + grammar tools + 12-category error catalog + DictaBERT-powered validator script
 - **v0.4.0** — 124-source catalog + 8 variation modes + source-selection decision logic (STEP 4.5) + 4-axis output rubric (STEP 5g) + user-goal interview question + `hebrew_toolkit.py` with 14 specialized-model subcommands
-- **v0.5.0** (current) — **Comprehensive scope expansion + rebrand as the Hebrew production suite**: 25+ output types (added books / articles / courses / reports / research / business / communications / technical docs) + 15 variation modes (added software-engineering, cybersecurity, product-management, defense-aerospace, ai-ml-research, startup-fundraising, gen-z-creator) + 4 community sub-filters (arabic-hebrew-bilingual, haredi-tech, academic-formal, diaspora-israeli)
+- **v0.5.0** — **Comprehensive scope expansion + rebrand as the Hebrew production suite**: 25+ output types (added books / articles / courses / reports / research / business / communications / technical docs) + 15 variation modes (added software-engineering, cybersecurity, product-management, defense-aerospace, ai-ml-research, startup-fundraising, gen-z-creator) + 4 community sub-filters (arabic-hebrew-bilingual, haredi-tech, academic-formal, diaspora-israeli)
+- **v0.5.1** — **RTL safety rule for UI labels**: STEP 0 now mandates Latin-transliteration-first persona names (`Yoel (יואל)` etc.) in any AskUserQuestion option / menu chip / button label. Fixes Hebrew option labels appearing character-reversed in LTR-base UI clients.
+- **v0.5.2** — **Bidi & RTL output discipline (STEP 5h validation gate)**: comprehensive rules to prevent Hebrew inversion in any LTR-base renderer (terminal, GitHub markdown, plaintext, chat UIs). Mandates Hebrew gershayim (`״`) / geresh (`׳`) / maqaf (`־`) instead of ASCII `"` `'` `-` adjacent to Hebrew runs. Mandates FSI/PDI isolation of Latin runs inside Hebrew sentences. Mandates RLM prefix for digit-leading lines. Updates persona table to use `יואל ״יו־יו״ שריג` instead of inversion-prone `יואל "יו-יו" שריג`. Ships `hebrew_toolkit.py bidi-check` (detects 4 violation classes) and `bidi-fix` (auto-applies fixable substitutions, safely skips YAML frontmatter / fenced code blocks / long structural strings).
+- **v0.5.3** (current) — **Compress SKILL.md `description` to ≤1024 chars** for Claude Cowork compatibility. Trimmed from 1731 → 989 chars while preserving all trigger keywords (output types, variation modes, persona names, validation+rubric, do-not-use list).
 - **v0.6.0** (planned) — audio rehearsal loop (TTS + ASR feedback); visual deliverable pipeline (markdown → PDF / Gamma decks); corpus expansion to 200+ 2025–2026 web-sourced entries
 - **v0.7.0** (planned) — educational mode (explain corrections); strict-corpus mode (refuse non-grounded terms); self-improvement feedback loop; custom persona from user samples; test matrix expansion (5 → 60 cases)
 - **v1.0.0** (planned) — 300+ corpus entries, additional personas, CI / GitHub Action integration
