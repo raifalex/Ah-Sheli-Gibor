@@ -1,7 +1,7 @@
 {
   "name": "ah-sheli-gibor",
-  "version": "0.3.0",
-  "description": "Claude Skill for producing authentic 2026-era Israeli tech Hebrew. 5 output types (rewrite/pitch/speech/talking-cards/teleprompter), 6 voice personas (3M/3F), 5-register awareness. Six-stage validation pass with grammar checker + phrasing checker, optional DictaBERT-powered automated validator script. Grounded in 12-category error catalog and authoritative Hebrew references (Academy of Hebrew Language, DictaBERT, Hspell, Morfix).",
+  "version": "0.4.0",
+  "description": "Claude Skill for producing authentic 2026-era Israeli tech Hebrew. 5 output types (rewrite/pitch/speech/talking-cards/teleprompter), 6 voice personas (3M/3F), 5-register awareness, 8 Hebrew variation modes (tech-formal/legal/medical/biblical/gender-emotional/slang-cultural/bilingual/creative-lyrics). 124-entry Hebrew AI source catalog with task-aware source selection (DictaBERT, DictaLM-3.0, hebEMO, Legal-heBERT, BEREL, ivrit-ai Whisper, NVIDIA TensorRT-LLM, etc.). 4-axis Hebrew-labeled output rubric. Unified hebrew_toolkit.py CLI for invoking 12+ specialized models.",
   "bin": {
     "ah-sheli-gibor": "./bin/install.js"
   },
@@ -14,6 +14,7 @@
     "references/",
     "personas/",
     "output_types/",
+    "sources/",
     "research/",
     "tests/",
     "examples/",

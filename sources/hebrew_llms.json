@@ -1,0 +1,35 @@
+{
+  "schema_version": "v1",
+  "catalog_version": "0.4.0",
+  "generated_date": "2026-05-22",
+  "primary_source": "https://github.com/danielrosehill/Hebrew-LLMs",
+  "license_of_catalog": "CC BY 4.0 (Daniel Rosehill compilation)",
+  "purpose": "Focused subset of Hebrew LLMs with sizing, context-window, and quantization metadata. Use this index to choose the right model for a given deployment constraint.",
+  "deployment_targets": {
+    "edge_or_apple_silicon": ["dictalm-3.0-1.7b-base", "dictalm-3.0-1.7b-instruct", "hebrew-gemma-11b-v2-mlx-4bit"],
+    "cpu_local": ["hebrew-mistral-7b-instruct-gguf", "hebrew-mistral-7b-instruct-v0.1-gguf"],
+    "single_gpu_consumer": ["dictalm-3.0-1.7b-instruct", "hebrew-mistral-7b", "dictalm-2.0-instruct"],
+    "single_gpu_production": ["dictalm-3.0-nemotron-12b-instruct", "hebrew-gemma-11b-instruct", "dictalm-2.0-instruct + tensorrt-llm"],
+    "multi_gpu_production": ["dictalm-3.0-24b-thinking", "hebrew-mixtral-8x22b"],
+    "tensorrt_llm_target": ["dictalm-2.0-instruct"],
+    "long_context_200k": ["hebrew-mistral-7b-200k"],
+    "bilingual_he_en": ["smollm-135m-engheb", "neodictabert-bilingual"]
+  },
+  "by_capability": {
+    "general_generation": ["dictalm-3.0-24b-base", "dictalm-3.0-nemotron-12b-base", "hebrew-gemma-11b", "hebrew-mistral-7b", "hebrew-mixtral-8x22b"],
+    "reasoning": ["dictalm-3.0-24b-thinking", "dictalm-3.0-1.7b-thinking"],
+    "instruction_following": ["dictalm-3.0-24b-thinking", "dictalm-3.0-nemotron-12b-instruct", "dictalm-3.0-1.7b-instruct", "hebrew-gemma-11b-instruct", "dictalm-2.0-instruct", "hebrew-nemo", "hebrew-mistral-7b-instruct-v0.1"],
+    "chat": ["hebrew-gemma-11b-v2", "llama-3.2-3b-hebrew-master", "hebrew-mistral-7b-instruct-gguf"],
+    "slang_idiom_explanation": ["dictalm-3.0-24b-thinking"],
+    "legal": ["legal-hebert", "dictalm-3.0-24b-thinking"],
+    "medical": ["hebrew-medical-ner-v5", "dictalm-3.0-24b-thinking"],
+    "biblical_rabbinic": ["berel-3.0", "berel", "hebrew-bible-ai"],
+    "summarization": ["hebrew-summarization-llm", "het5-summarization", "het5-small-summarization", "cross-summarization-he-en"],
+    "translation": ["opus-mt-en-he", "opus-mt-tc-big-he-en", "english-hebrew-translation", "t5-hebrew-translation"],
+    "code_or_sql": ["llama3.1-8b-hebrew2sql"],
+    "math_education": ["hebrew-math-tutor-v1"],
+    "creative_lyrics": ["gemma-3-4b-hebrew-lyrics"]
+  },
+  "leaderboard_observation": "Per Rosehill catalog: large multilingual LLMs (Claude, GPT-4, Gemini) generally outperform specialized Hebrew models on most public benchmarks — due to significantly larger parameter counts. Use specialized Hebrew models when: (a) you need local/private deployment, (b) you need domain-specific terminology (legal/medical/biblical), (c) you need cost-controlled inference, (d) you need deterministic output for compliance reasons. Use frontier multilingual LLMs (Claude 4.7) for general-purpose Hebrew when API cost is acceptable.",
+  "see_also": "Full catalog with type/org/URL/when-to-use: sources/hebrew_ai_models.json"
+}
