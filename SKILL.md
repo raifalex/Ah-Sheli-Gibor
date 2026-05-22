@@ -230,12 +230,13 @@ Do not begin writing until you understand the full input.
 For each significant term, apply the **priority cascade**:
 
 1. **2026 corpus match** (`corpus/jargon.json`) — established Israeli tech jargon term. Use it.
-2. **Persona signature phrase** (`personas/<persona-id>.md`) — if the chosen persona has a signature phrase that fits, use it.
-3. **Academy of Hebrew Language approved term** — use in formal register (investor-pitch, pr-rfc, teleprompter); use the jargon in informal register (slack, linkedin, technical-blog).
-4. **Construct an anglicized loanword via binyan pi'el rules** (`references/grammar_layer.md` §1) — only if (1)–(3) yield nothing.
-5. **Calque (loan translation)** — only if the result sounds natural to a native speaker.
+2. **LaStartup community dictionary match** (`corpus/lastartup_dictionary.json`) — 81-entry Hebrew/English glossary from lastartup.co.il covering startup, engineering, product, marketing, sales, legal, and funding terms. Each entry has slug, Hebrew description, and category tags. Use when corpus/jargon doesn't have the term.
+3. **Persona signature phrase** (`personas/<persona-id>.md`) — if the chosen persona has a signature phrase that fits, use it.
+4. **Academy of Hebrew Language approved term** — use in formal register (investor-pitch, pr-rfc, teleprompter); use the jargon in informal register (slack, linkedin, technical-blog).
+5. **Construct an anglicized loanword via binyan pi'el rules** (`references/grammar_layer.md` §1) — only if (1)–(4) yield nothing.
+6. **Calque (loan translation)** — only if the result sounds natural to a native speaker.
 
-Default rule: **prefer the established anglicized loanword over invented Hebrew** when that loanword is documented in the corpus.
+Default rule: **prefer the established anglicized loanword over invented Hebrew** when that loanword is documented in the corpus or LaStartup dictionary.
 
 ### STEP 3 — SET REGISTER + STRUCTURE
 
@@ -256,14 +257,20 @@ For multi-part output (slides, cards, paragraphs), produce all parts together �
 
 Between WRITE and VALIDATE, consult `sources/source_selection.md` to choose the right sources for this task. The skill picks:
 
-1. **Generator source** — which LLM informed the writing (Claude default; specialized model for niche domains)
+1. **Generator source** — which LLM informed the writing (Claude default; specialized model for niche domains; **DictaLM 3.0 family** for Hebrew-native generation — see `references/dictalm_3_deployment.md` for the task→variant routing table)
 2. **Validator source(s)** — which model(s) STEP 5 will invoke
 3. **Authoritative reference** — which canonical source resolves disputes
 4. **Rubric weighting modifier** — based on user goal + output type
 
+**DictaLM 3.0 defaults** (Dec 2025, current SOTA for Hebrew open-weight LLMs):
+- Production generation: `dicta-il/DictaLM-3.0-Nemotron-12B-Instruct` (or FP8 variant on H100+)
+- High-stakes reasoning (rubric grading, two-step refinement, speech/keynote): `dicta-il/DictaLM-3.0-24B-Thinking`
+- Edge / on-device: `dicta-il/DictaLM-3.0-1.7B-Thinking-GGUF`
+- Full collection (24 variants): `references/dictalm_3_deployment.md`
+
 In **methodology mode** (default), the skill notes its choices inline. In **tool-assisted mode**, the skill invokes `scripts/hebrew_toolkit.py recommend` to confirm and then `scripts/hebrew_toolkit.py <task>` for actual model invocation.
 
-The user can override at this step: *"use Legal-heBERT for validation"* / *"skip model validation"* / *"strict-corpus only"*.
+The user can override at this step: *"use Legal-heBERT for validation"* / *"skip model validation"* / *"strict-corpus only"* / *"use DictaLM-3.0-24B-Thinking"*.
 
 ### STEP 5 — VALIDATE
 
@@ -326,6 +333,8 @@ Read the output as if you are the chosen persona. Ask:
 - Does the persona's "what they don't do" list hold?
 - Could this paragraph have been written by a different persona without anyone noticing? If yes — strengthen the voice.
 
+**Sharp-vs-offensive disambiguation** (Dana, Gilad, debate prep, panel cards, op-eds): when a clause feels close to the line, apply the 6-level taxonomy + two-step refinement from `references/hebrew_offensive_taxonomy.md`. Sharp criticism is allowed; offensive overreach is rewritten regardless of how punchy it reads.
+
 #### 5e — Phrasing Check (idiomaticity / naturalness layer)
 
 Apply `references/phrasing_checker.md` checklist:
@@ -338,6 +347,7 @@ Apply `references/phrasing_checker.md` checklist:
 6. **Connectives** — chosen per register (אולם / יחד עם זאת for formal; אבל / אז for informal)
 7. **Vocabulary variation** — no accidental repetition within 3 paragraphs
 8. **Anaphora clarity** — every pronoun antecedent unambiguous
+9. **Hebrew-specific pitfalls** — null-subject ambiguity, verb-fronting target ambiguity, imperative-form register slips, social-distance vulgarity grading, implicit-criticism markers (see `references/hebrew_offensive_taxonomy.md` § "Hebrew-Specific Pitfalls")
 
 This is the layer where a grammatically-perfect translation gets reshaped into actual Hebrew thought.
 
@@ -571,14 +581,22 @@ For the full error catalog see `references/common_errors_catalog.md`. For the so
 
 ## Sources
 
-124-entry Hebrew AI source catalog lives in `sources/`:
+140-entry Hebrew AI source catalog lives in `sources/`:
 
-- `sources/hebrew_ai_models.json` — full structured catalog with type / org / URL / when-to-use per model
+- `sources/hebrew_ai_models.json` — full structured catalog with type / org / URL / when-to-use per model (140 entries; includes full DictaLM 3.0 collection — 24 variants across 3 sizes × 3 chat-variants × 4 quant levels)
 - `sources/hebrew_llms.json` — focused LLM index with sizing / deployment-target metadata
 - `sources/source_index.md` — human-readable org-by-org breakdown
 - `sources/source_selection.md` — decision-tree for which source per task / variation / goal
 
-Source content consolidated from [Daniel Rosehill — Hebrew-AI-Models](https://github.com/danielrosehill/Hebrew-AI-Models) (CC BY 4.0), [Daniel Rosehill — Hebrew-LLMs](https://github.com/danielrosehill/Hebrew-LLMs) (CC BY 4.0), and [NVIDIA TensorRT-LLM Hebrew blog](https://developer.nvidia.com/blog/accelerating-hebrew-llm-performance-with-nvidia-tensorrt-llm/).
+**Vocabulary corpora** in `corpus/`:
+- `corpus/jargon.json` — curated 2026 Israeli tech jargon, persona-tagged
+- `corpus/lastartup_dictionary.json` — 81-entry community glossary scraped from [lastartup.co.il/dictionary](https://www.lastartup.co.il/dictionary) (2026-05-22), covering startup / engineering / product / marketing / sales / legal / funding terms with Hebrew descriptions and category tags
+
+**Reference documents** in `references/`:
+- `references/dictalm_3_deployment.md` — DictaLM 3.0 family deployment guide: variant selection per task, quantization decision matrix, vLLM / llama.cpp recipes
+- `references/hebrew_offensive_taxonomy.md` — 6-level Hebrew offensive-language taxonomy + two-step refinement protocol from [Liebeskind & Yefet (2026)](https://doi.org/10.1515/lpp-2025-0093). Used by STEP 5d for sharp-vs-offensive disambiguation and STEP 5e for Hebrew-specific phrasing pitfalls.
+
+Source content consolidated from [Daniel Rosehill — Hebrew-AI-Models](https://github.com/danielrosehill/Hebrew-AI-Models) (CC BY 4.0), [Daniel Rosehill — Hebrew-LLMs](https://github.com/danielrosehill/Hebrew-LLMs) (CC BY 4.0), [NVIDIA TensorRT-LLM Hebrew blog](https://developer.nvidia.com/blog/accelerating-hebrew-llm-performance-with-nvidia-tensorrt-llm/), [DICTA Dicta-LM 3.0 Technical Report](https://dicta.org.il/publications/DictaLM_3_0___Techincal_Report.pdf), [lastartup.co.il dictionary](https://www.lastartup.co.il/dictionary), and [Liebeskind & Yefet (2026), Lodz Papers in Pragmatics](https://doi.org/10.1515/lpp-2025-0093).
 
 Primary source organizations:
 - **dicta-il** — DictaBERT family (parsing / morphology / NER / sentiment) + DictaLM-3.0 (generation / reasoning)
@@ -619,7 +637,11 @@ Primary source organizations:
 - **v0.5.0** — **Comprehensive scope expansion + rebrand as the Hebrew production suite**: 25+ output types (added books / articles / courses / reports / research / business / communications / technical docs) + 15 variation modes (added software-engineering, cybersecurity, product-management, defense-aerospace, ai-ml-research, startup-fundraising, gen-z-creator) + 4 community sub-filters (arabic-hebrew-bilingual, haredi-tech, academic-formal, diaspora-israeli)
 - **v0.5.1** — **RTL safety rule for UI labels**: STEP 0 now mandates Latin-transliteration-first persona names (`Yoel (יואל)` etc.) in any AskUserQuestion option / menu chip / button label. Fixes Hebrew option labels appearing character-reversed in LTR-base UI clients.
 - **v0.5.2** — **Bidi & RTL output discipline (STEP 5h validation gate)**: comprehensive rules to prevent Hebrew inversion in any LTR-base renderer (terminal, GitHub markdown, plaintext, chat UIs). Mandates Hebrew gershayim (`״`) / geresh (`׳`) / maqaf (`־`) instead of ASCII `"` `'` `-` adjacent to Hebrew runs. Mandates FSI/PDI isolation of Latin runs inside Hebrew sentences. Mandates RLM prefix for digit-leading lines. Updates persona table to use `יואל ״יו־יו״ שריג` instead of inversion-prone `יואל "יו-יו" שריג`. Ships `hebrew_toolkit.py bidi-check` (detects 4 violation classes) and `bidi-fix` (auto-applies fixable substitutions, safely skips YAML frontmatter / fenced code blocks / long structural strings).
-- **v0.5.3** (current) — **Compress SKILL.md `description` to ≤1024 chars** for Claude Cowork compatibility. Trimmed from 1731 → 989 chars while preserving all trigger keywords (output types, variation modes, persona names, validation+rubric, do-not-use list).
+- **v0.5.3** — **Compress SKILL.md `description` to ≤1024 chars** for Claude Cowork compatibility. Trimmed from 1731 → 989 chars while preserving all trigger keywords (output types, variation modes, persona names, validation+rubric, do-not-use list).
+- **v0.5.4** (current) — **External-resource integration**:
+  - **LaStartup dictionary embedded** as `corpus/lastartup_dictionary.json` (81 entries from lastartup.co.il/dictionary with Hebrew descriptions, slugs, category tags). STEP 2 term-mapping cascade now consults it as priority #2 after the curated jargon corpus.
+  - **DictaLM 3.0 full collection** documented in `references/dictalm_3_deployment.md` + 17 missing quantization variants (FP8/W4A16/GGUF) added to `sources/hebrew_ai_models.json`. Catalog grows from 124 → 140 entries. STEP 4.5 now defaults to `DictaLM-3.0-Nemotron-12B-Instruct` for production and `DictaLM-3.0-24B-Thinking` for high-stakes reasoning.
+  - **Hebrew offensive-language taxonomy** from [Liebeskind & Yefet (2026), Lodz Papers in Pragmatics](https://doi.org/10.1515/lpp-2025-0093) integrated as `references/hebrew_offensive_taxonomy.md` — 6-level taxonomy + two-step refinement protocol for sharp-vs-offensive disambiguation. STEP 5d (persona check) and STEP 5e (phrasing check) now consult it.
 - **v0.6.0** (planned) — audio rehearsal loop (TTS + ASR feedback); visual deliverable pipeline (markdown → PDF / Gamma decks); corpus expansion to 200+ 2025–2026 web-sourced entries
 - **v0.7.0** (planned) — educational mode (explain corrections); strict-corpus mode (refuse non-grounded terms); self-improvement feedback loop; custom persona from user samples; test matrix expansion (5 → 60 cases)
 - **v1.0.0** (planned) — 300+ corpus entries, additional personas, CI / GitHub Action integration
