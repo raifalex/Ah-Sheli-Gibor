@@ -17,27 +17,36 @@ This is not a Hebrew translator. It's a Hebrew **producer** that comprehends sou
 ### One-line install (recommended)
 
 ```sh
+npx ah-sheli-gibor
+```
+
+Installs from the npm registry to `~/.claude/skills/ah-sheli-gibor/`. Restart Claude Code afterward.
+
+[![npm version](https://img.shields.io/npm/v/ah-sheli-gibor.svg)](https://www.npmjs.com/package/ah-sheli-gibor)
+
+### Alternative: install directly from GitHub
+
+If you'd rather pin to the source repo (e.g., to consume an unreleased commit):
+
+```sh
 npx github:raifalex/Ah-Sheli-Gibor
 ```
 
-Installs to `~/.claude/skills/ah-sheli-gibor/`. Restart Claude Code afterward.
-
-### After npm publish
+### Global install
 
 ```sh
-npx ah-sheli-gibor
-# or:
-npm install -g ah-sheli-gibor && ah-sheli-gibor
+npm install -g ah-sheli-gibor
+ah-sheli-gibor
 ```
 
 ### Installer options
 
 ```sh
-npx ah-sheli-gibor                  # default install
+npx ah-sheli-gibor                  # default install (~/.claude/skills/)
 npx ah-sheli-gibor --update         # git pull latest
 npx ah-sheli-gibor --uninstall      # remove
-npx ah-sheli-gibor --target <path>  # custom path
-npx ah-sheli-gibor --dry-run        # show plan
+npx ah-sheli-gibor --target <path>  # custom install path
+npx ah-sheli-gibor --dry-run        # preview without installing
 npx ah-sheli-gibor --help
 ```
 
