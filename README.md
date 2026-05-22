@@ -1,14 +1,35 @@
 # Ah Sheli Gibor
 
-> **אח שלי גיבור** — the affectionate Israeli startup-nation address. A Claude Skill for producing authentic 2026-era Israeli tech Hebrew at production grade — with the right voice, the right register, the right sources, and validated grammar.
+> **אח שלי גיבור** — the affectionate Israeli address.
+> **The comprehensive Hebrew production suite.** 25+ output types · 15 variation modes · 6 voice personas · 124-source AI catalog · six-stage validation · 4-axis Hebrew-labeled rubric. Production-grade.
+
+[![npm version](https://img.shields.io/npm/v/ah-sheli-gibor.svg)](https://www.npmjs.com/package/ah-sheli-gibor)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## What this skill does
+## What you get
 
-Produces authentic 2026-era Israeli tech Hebrew across **5 output types**, **8 variation modes**, and **6 voice personas** — with **source-aware generation**, **six-stage validation**, and a **4-axis output rubric**. Grounded in a **124-entry catalog** of Hebrew AI models / tools / references. Production-deployment optimized via NVIDIA TensorRT-LLM.
+A Claude Skill that produces **professional-grade Hebrew across every format and register you actually need** — books, articles, speeches, pitches, research papers, executive reports, course materials, talking cards, teleprompter scripts, technical documentation, and more. With the **right voice**, the **right register**, **validated grammar**, and **source-aware generation**.
 
-This is not a Hebrew translator. It's a Hebrew **producer** that comprehends source content and reconstructs it in the target register, persona, and variation mode the situation needs.
+This is not a translator. It's a Hebrew **producer** that comprehends source content and reconstructs it in the target format, persona, and variation mode the situation needs.
+
+### Why this exists
+
+**Israeli Hebrew is fragmented.** A pitch to investors needs different vocabulary than a memorial speech. A medical clinical note needs different grammar than a haredi-tech LinkedIn post. A cybersecurity incident report needs different cadence than a poetry chapbook. Generic translation tools flatten all of this into the same beige Hebrew.
+
+The Ah Sheli Gibor suite gives you 25+ format specs × 15 register modes × 6 voice personas × 124 AI sources. Every combination produces Hebrew that **a 2026 Israeli professional in that specific context would actually write**.
+
+### What makes it trustworthy
+
+- **Anti-hallucination guards** — every term traces to corpus (2025+ source-dated) or a documented persona signature
+- **Provenance tracking** — corpus entries carry URL + date; sources cited
+- **Academy of Hebrew Language alignment** — formal rulings respected
+- **2025-only source rule** — no dated 2022–2023 buzzwords
+- **Deterministic legal output** — contracts produce reproducibly (temperature=0)
+- **6-stage validation** — every output checked across grammar, jargon currency, persona, phrasing, anti-patterns, rubric
+- **4-axis Hebrew-labeled rubric** — רלוונטיות / קוהרנטיות / עקביות / רהיטות, each 1-10
+- **Native-speaker authenticity test** as the final pass
 
 ---
 
@@ -22,11 +43,7 @@ npx ah-sheli-gibor
 
 Installs from the npm registry to `~/.claude/skills/ah-sheli-gibor/`. Restart Claude Code afterward.
 
-[![npm version](https://img.shields.io/npm/v/ah-sheli-gibor.svg)](https://www.npmjs.com/package/ah-sheli-gibor)
-
-### Alternative: install directly from GitHub
-
-If you'd rather pin to the source repo (e.g., to consume an unreleased commit):
+### Alternative — from GitHub source
 
 ```sh
 npx github:raifalex/Ah-Sheli-Gibor
@@ -45,7 +62,7 @@ ah-sheli-gibor
 npx ah-sheli-gibor                  # default install (~/.claude/skills/)
 npx ah-sheli-gibor --update         # git pull latest
 npx ah-sheli-gibor --uninstall      # remove
-npx ah-sheli-gibor --target <path>  # custom install path
+npx ah-sheli-gibor --target <path>  # custom path
 npx ah-sheli-gibor --dry-run        # preview without installing
 npx ah-sheli-gibor --help
 ```
@@ -54,95 +71,150 @@ Requires Node ≥14 and `git`.
 
 ### Optional Hebrew NLP toolkit
 
-For the automated validator and the 12+ specialized model subcommands:
+For the automated validator + 14 specialized-model subcommands:
 
 ```sh
 cd ~/.claude/skills/ah-sheli-gibor
 pip install -r scripts/requirements.txt   # transformers + torch + sentencepiece
 ```
 
----
+### Supported agents
 
-## Architecture at a glance
-
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                     User invokes the skill                         │
-└──────────────────────────────┬───────────────────────────────────┘
-                               ▼
-┌──────────────────────────────────────────────────────────────────┐
-│  STEP 0 — INTERVIEW                                                │
-│  Gathers 7 inputs: output-type, context, purpose, mood,            │
-│  GOAL, variation mode, persona. Asks ≤3 questions max.            │
-└──────────────────────────────┬───────────────────────────────────┘
-                               ▼
-┌──────────────────────────────────────────────────────────────────┐
-│  STEP 1 → 4 — COMPREHEND, MAP TERMS, SET REGISTER, WRITE           │
-└──────────────────────────────┬───────────────────────────────────┘
-                               ▼
-┌──────────────────────────────────────────────────────────────────┐
-│  STEP 4.5 — SOURCE SELECTION                                       │
-│  Picks: generator source + validators + reference + rubric weights │
-│  Catalog: sources/hebrew_ai_models.json (124 entries)             │
-└──────────────────────────────┬───────────────────────────────────┘
-                               ▼
-┌──────────────────────────────────────────────────────────────────┐
-│  STEP 5 — SIX-STAGE VALIDATION                                     │
-│  5a regex grammar  →  5b model grammar  →  5c jargon currency     │
-│  5d persona consist →  5e phrasing/idiom →  5f anti-patterns      │
-│  5g 4-axis rubric (רלוונטיות / קוהרנטיות / עקביות / רהיטות, 1-10) │
-└──────────────────────────────┬───────────────────────────────────┘
-                               ▼
-                       Final Hebrew output
-```
+claude-code · cursor · github-copilot · windsurf · opencode · codex · gemini-cli
 
 ---
 
-## The 5 output types
+## Quick examples
 
-| Output type | What it does |
+### Example 1 — Founder LinkedIn announcement
+
+**Input:**
+> "Write a LinkedIn announcement for closing a $14M Series A. Voice = Yoel. Add details: 22 enterprise customers, $2.1M ARR, 142% NRR."
+
+**Output (Yoel voice):**
+> רגע נדיר.
+>
+> אחרי 18 חודשים של בנייה, שלושה rewrites של ה-architecture, ופיבוט אחד שכמעט הרג אותנו — סגרנו היום Series A של 14 מיליון דולר.
+>
+> מה למדנו: רוב הצוותים שמנסים להטמיע AI agents מתקשעים על אותה בעיה — context handoff בין agents. כולם פתרו את זה לרוחב; אנחנו פתרנו לעומק. זה bet ששילם.
+>
+> 22 לקוחות enterprise. $2.1M ARR. NRR של 142%. צוות של 9 שבונה כמו 30.
+>
+> מגייסים founding engineers עכשיו. אם זה מדבר אליך — דבר איתי.
+
+### Example 2 — Executive board memo
+
+**Input:**
+> "Board memo recommending we raise the GTM budget by $4.2M for Q3-Q4. Persona = Yoel. Format = report-executive."
+
+**Output (excerpt, Hebrew-formal):**
+> **לכבוד:** דירקטוריון SecureFlow
+> **מאת:** דני שריג, מנכ"ל
+> **תאריך:** 22/05/2026
+> **נושא:** המלצה לאישור הרחבת תקציב GTM ב-4.2 מיליון דולר
+>
+> ## תקציר מנהלים
+> מאז סבב ה-Series B צמחנו פי 2.4 ב-ARR. ה-pipeline ב-Enterprise תפח ב-340%. בקצב הנוכחי אנחנו מתקרבים לחסם עקב חוסר ב-AE capacity. מבקשים אישור להגדלת תקציב ה-GTM ב-4.2 מיליון דולר.
+>
+> **המלצה:** לאשר.
+>
+> [... full memo continues with Background / Analysis / Risks / Next Steps ...]
+
+### Example 3 — Cybersecurity panel talking cards
+
+**Input:**
+> "Talking cards for a TechGym infosec panel on AI agent security. Persona = Dana. Variation = cybersecurity."
+
+**Output (excerpt):**
+> ### CARD 1.1 ▶ 00:00 · OPENING CLAIM
+>
+> השאלה היא לא איך — השאלה היא מתי.
+>
+> ה-Shared Responsibility Model שלכם הניח אדם. וההנחה הזאת שגויה היום בכל סביבת ענן שמריצה AI agent.
+>
+> זה לא קר. זה מדויק.
+>
+> ◼ [BEAT] ◼
+
+---
+
+## The 25+ output types
+
+| Category | Output types |
 |---|---|
-| **Rewrite** | Reframe source text in a target Israeli tech register |
-| **Pitch** | Investor / customer / internal / elevator pitch decks |
-| **Speech** | Keynotes, commencements, memorials, town-halls, awards |
-| **Talking cards** | Panel prep, TV interview, board meetings, podcast appearances |
-| **Teleprompter** | Verbatim broadcast / recorded-video scripts with delivery annotations |
+| **Stage / spoken** | rewrite · pitch · speech · talking-cards · teleprompter |
+| **Books** | book-chapter · book-proposal · manuscript-edit |
+| **Articles** | article-feature · article-op-ed · article-news · article-profile |
+| **Educational** | course-material (syllabus / lesson / handout / assessment / module / reading-guide) |
+| **Reports** | report-executive · report-business · report-whitepaper · report-incident |
+| **Academic** | research-paper (IMRAD) · research-proposal · thesis-chapter |
+| **Business** | business-plan · rfp-response (Israeli michraz) · case-study |
+| **Communications** | comms (press-release / formal-email / memo) |
+| **Technical** | tech-doc (README / API / runbook / ADR / migration / troubleshooting) · product-spec (PRD) |
 
-Each output type has its own structural template, delivery annotations, and validation thresholds. Full specs in `output_types/`.
+Each output type has its own structural template, validation gates, and persona pairings. Full specs in `output_types/`.
+
+---
+
+## The 15 variation modes + 4 sub-filters
+
+### Tech sub-domains (8)
+
+| Mode | When to use |
+|---|---|
+| **`tech-general`** (default) | General Israeli tech writing — fallback |
+| **`software-engineering`** | Developer / DevOps / SRE register |
+| **`cybersecurity`** | Israeli infosec community (SOC / IR / DFIR / INCD) |
+| **`product-management`** | PM voice — roadmap / OKRs / KPIs / NPS |
+| **`defense-aerospace`** | Israeli defense (Elbit / MAFAT / Rafael / IAI) |
+| **`ai-ml-research`** | Academic + industrial ML |
+| **`startup-fundraising`** | Founder ↔ investor |
+| **`gen-z-creator`** | TikTok / Instagram / podcast |
+
+### Domain specialized (3)
+
+| Mode | When to use |
+|---|---|
+| **`legal-technical`** | Contracts, ToS, IP — deterministic output |
+| **`medical`** | Clinical, patient comms, drug labels |
+| **`biblical-rabbinic`** | Religious, ceremonial, Talmudic |
+
+### Voice / style (4)
+
+| Mode | When to use |
+|---|---|
+| **`gender-emotional`** | Personal narrative, vulnerable, memorial |
+| **`slang-cultural`** | Casual + cultural-explanation layer |
+| **`bilingual`** | Hebrew + English side-by-side |
+| **`creative-lyrics`** | Poetry, lyrics, experimental |
+
+### Community sub-filters (combine with any base mode)
+
+| Sub-filter | When to use |
+|---|---|
+| **`arabic-hebrew-bilingual`** | Arab-Israeli, Druze, Circassian tech professionals |
+| **`haredi-tech`** | Bnei Brak / Beit Shemesh tech (9,700+ workers, 6,900 women) |
+| **`academic-formal`** | Israeli university research register |
+| **`diaspora-israeli`** | Bay Area / NYC / Berlin Israeli expats |
+
+Full spec: `references/hebrew_variations.md`.
 
 ---
 
 ## The 6 personas
 
-| Persona | M/F | Archetype | Signature voice |
+| Persona | M/F | Archetype | Signature |
 |---|---|---|---|
-| **יואל "יו-יו" שריג** | M | tech-founder | Series-A confidence, dense English code-switching, founder-mode urgency, mission framing |
-| **שירה לב** | F | literary speechwriter | Classical-modern Hebrew, recurring images, emotional crescendos, dignified pauses |
-| **גלעד אש** | M | comedian | Deadpan, slang-fluent but selective, Hebrew setup + English punch, self-aware references |
-| **דנה אלמוג** | F | TV panelist-pundit | Debate-trained soundbites, rhetorical-question framing, single data-anchor per beat |
-| **איתמר חוזה** | M | veteran journalist | Patient long-form, classical Hebrew, scene-setting, deferred conclusions |
-| **נועה אופק** | F | contemporary creator | Intimate, vulnerable, fluid Hebrew-English, story-driven, personal-anchor opener |
+| **יואל "יו-יו" שריג** | M | tech-founder | Series-A confidence, dense English code-switching |
+| **שירה לב** | F | literary speechwriter | Classical-modern Hebrew, recurring images |
+| **גלעד אש** | M | comedian | Deadpan, slang-fluent, Hebrew setup + English punch |
+| **דנה אלמוג** | F | TV panelist-pundit | Debate-trained soundbites, rhetorical-question framing |
+| **איתמר חוזה** | M | veteran journalist | Patient long-form, classical Hebrew, deferred conclusions |
+| **נועה אופק** | F | contemporary creator | Intimate, vulnerable, fluid Hebrew-English |
 
-Pick by name (*"voice = יואל"* / *"speak as שירה"*) or let the skill auto-select based on output type + goal + variation.
+Pick by name (*"voice = יואל"* / *"speak as שירה"*) or let the skill auto-select based on output type + goal + variation mode.
 
-Full persona profiles with voice signature, vocabulary palette, distinctive moves, and sample paragraphs: `personas/`.
-
----
-
-## The 8 variation modes
-
-| Mode | When to use | Primary source |
-|---|---|---|
-| **tech-formal** (default) | Israeli tech writing | Claude + DictaBERT + corpus |
-| **legal-technical** | Contracts, ToS, IP, statute commentary | Legal-heBERT + deterministic output |
-| **medical** | Clinical notes, patient comms, informed consent | hebrew_medical_ner_v5 |
-| **biblical-rabbinic** | Religious, ceremonial, Talmudic | BEREL_3.0 / hebrew_bible_ai |
-| **gender-emotional** | Personal narrative, vulnerable, memorial | hebEMO (8 emotions) |
-| **slang-cultural** | Casual + comic, with cultural-explanation layer | DictaLM-3.0-24B-Thinking |
-| **bilingual** | Hebrew + English side-by-side | neodictabert-bilingual |
-| **creative-lyrics** | Poetry, lyrics, experimental prose | gemma-3_4b_hebrew-lyrics-finetune |
-
-Each variation mode encodes a vocabulary band + grammatical conventions + source bundle. Full spec: `references/hebrew_variations.md`.
+Full persona profiles: `personas/`.
 
 ---
 
@@ -152,12 +224,12 @@ When invoked, the skill asks (at most 3 questions, combining related ones):
 
 | # | Variable | Example |
 |---|---|---|
-| 1 | **Output type** | rewrite / pitch / speech / talking-cards / teleprompter |
+| 1 | **Output type** | rewrite / pitch / speech / book-chapter / research-paper / etc. |
 | 2 | **Use context** | who's the audience, what platform |
 | 3 | **Purpose** | inform / persuade / entertain / sell / mobilize / celebrate / mourn |
 | 4 | **Mood** | confident / warm / urgent / measured / playful / serious / vulnerable |
-| 5 | **🆕 Goal — what you want to achieve** | "convince investors" / "win a panel debate" / "land emotional impact" / "ceremonial address" / "sign a contract" / "clinical documentation" / "production deployment" |
-| 6 | **🆕 Variation mode** | tech-formal / legal-technical / medical / biblical-rabbinic / gender-emotional / slang-cultural / bilingual / creative-lyrics / auto |
+| 5 | **Goal — what you want to achieve** | "convince investors" / "win a panel debate" / "land emotional impact" / "ceremonial address" / "sign a contract" / "clinical documentation" / "publish a chapter" / "submit a grant" |
+| 6 | **Variation mode** | (1 of 15) + optional sub-filter |
 | 7 | **Persona** | יואל / שירה / גלעד / דנה / איתמר / נועה / auto |
 
 If 5/7 are clear from context, the skill proceeds — naming its inferences in one line.
@@ -175,17 +247,20 @@ Every output is scored (1–10 each):
 | **עקביות** | Consistency | Factual fidelity between output and source; no hallucination |
 | **רהיטות** | Fluency | Grammar, spelling, punctuation, word choice, sentence structure, persona fidelity |
 
-**Per-output-type thresholds:**
+**Per-output-type pass thresholds:**
 
-| Output type | Priority axes | Pass threshold |
+| Output type | Priority axis | Threshold |
 |---|---|---|
-| Rewrite | רהיטות > רלוונטיות > קוהרנטיות > עקביות | All ≥ 7 |
-| Pitch | קוהרנטיות > רלוונטיות > עקביות > רהיטות | קוהרנטיות ≥ 8, others ≥ 7 |
-| Speech | קוהרנטיות > רהיטות > רלוונטיות > עקביות | קוהרנטיות ≥ 8, רהיטות ≥ 8 |
-| **Talking cards** | עקביות > רהיטות > קוהרנטיות > רלוונטיות | **עקביות ≥ 9** (debate-grade) |
-| **Teleprompter** | רהיטות > עקביות > קוהרנטיות > רלוונטיות | **רהיטות ≥ 9** (reading-speed) |
+| Rewrite | רהיטות | All ≥ 7 |
+| Pitch | קוהרנטיות | קוהרנטיות ≥ 8 |
+| Speech | קוהרנטיות + רהיטות | both ≥ 8 |
+| **Talking cards** | עקביות | **עקביות ≥ 9** (debate-grade) |
+| **Teleprompter** | רהיטות | **רהיטות ≥ 9** (reading-speed) |
+| **Research paper** | עקביות | **עקביות ≥ 9** (factual rigor) |
+| **Legal contract** | עקביות + רהיטות | both ≥ 9 (deterministic + precise) |
+| **Incident report** | עקביות | **עקביות ≥ 9** (audit-grade) |
 
-Goal further weights axes (e.g., *"sign a contract"* gives עקביות a 2× weight). Full spec: `references/output_evaluation_rubric.md`.
+Goal further weights axes. Full spec: `references/output_evaluation_rubric.md`.
 
 ---
 
@@ -196,11 +271,11 @@ Every output passes through:
 | Stage | What it checks | Tools |
 |---|---|---|
 | **5a** Regex grammar | Pattern-based errors (Categories A/D/E/G/H/K/L) | `hebrew_validate.py --no-model` |
-| **5b** Model grammar | Agreement, smikhut, binyan, gender/number | DictaBERT-parse via `hebrew_toolkit.py parse` |
-| **5c** Jargon currency | Every term traces to corpus (2025+) or persona signature | `corpus/jargon.json` + Academy |
+| **5b** Model grammar | Agreement, smikhut, binyan, gender/number | DictaBERT-parse |
+| **5c** Jargon currency | Every term traces to corpus (2025+) or persona | `corpus/jargon.json` + Academy |
 | **5d** Persona consistency | Voice fingerprint across paragraphs | `personas/*.md` |
-| **5e** Phrasing / idiomaticity | Word order, idioms, register coherence, code-switching density, rhythm, connectives, anaphora | `references/phrasing_checker.md` |
-| **5f** Anti-patterns + authenticity | 12-category catalog cross-check + native-speaker test | `references/common_errors_catalog.md` |
+| **5e** Phrasing / idiomaticity | Word order, idioms, register, code-switching density | `references/phrasing_checker.md` |
+| **5f** Anti-patterns + authenticity | 12-category error catalog + native-speaker test | `references/common_errors_catalog.md` |
 | **5g** 4-axis rubric | רלוונטיות / קוהרנטיות / עקביות / רהיטות (1-10 each) | LLM-graded with goal/output-type weighting |
 
 Below threshold on any priority axis = automatic rewrite of the failing section.
@@ -220,59 +295,35 @@ Consolidated from:
 
 | Category | Count | Top picks |
 |---|---|---|
-| LLMs (generation/reasoning/instruction) | 30 | DictaLM-3.0-24B-Thinking, Hebrew-Mixtral-8x22B, DictaLM-2.0-Instruct |
+| LLMs (generation/reasoning/instruction) | 30 | DictaLM-3.0-24B-Thinking, Hebrew-Mixtral-8x22B |
 | ASR | 15 | ivrit-ai whisper-large-v3-turbo-ct2 |
 | TTS | 9 | SIMS-7B + phonikud, HebTTS |
 | BERT foundation | 11 | DictaBERT, NeoDictaBERT-bilingual, HeRo |
 | NER | 3 | dictabert-ner, heBERT_NER |
 | Sentiment / emotion | 4 | heBERT_sentiment, hebEMO (8 categories) |
-| Morphology / parsing | 7 | dictabert-parse, dictabert-large-parse, YAP |
-| Diacritization | 3 | Dicta Nakdan API, dictabert-large-char-menaked |
-| Translation | 3 | Helsinki-NLP opus-mt-en-he, DeepL API |
-| Summarization | 4 | het5_summarization, hebrew-summarization-llm |
-| **Domain-specialized** | 6 | **Legal-heBERT, hebrew_medical_ner_v5, BEREL_3.0**, hebrew-math-tutor-v1, Llama-3.1-8b-Hebrew2SQL, gemma-3_4b_hebrew-lyrics |
-| Embeddings | 3 | sentence-transformers-alephbert, neodictabert-bilingual-embed |
-| OCR / vision | 3 | testing-trOCR-hebrew-handwritten, paleo-hebrew-qwen3-vl-lora |
+| Morphology / parsing | 7 | dictabert-parse, dictabert-large-parse |
+| Diacritization | 3 | Dicta Nakdan API |
+| Translation | 3 | Helsinki-NLP opus-mt, DeepL API |
+| Summarization | 4 | het5_summarization |
+| Domain-specialized | 6 | Legal-heBERT, hebrew_medical_ner_v5, BEREL_3.0 |
+| Embeddings | 3 | sentence-transformers-alephbert |
+| OCR / vision | 3 | testing-trOCR-hebrew-handwritten |
 | Speech foundation | 4 | mhubert-base-25hz, StresSLM, PAST |
 | Authoritative references | 4 | Academy of Hebrew Language, Morfix, Rav-Milim, MILA |
 | Runtime optimization | 1 | NVIDIA TensorRT-LLM (DictaLM-2.0) |
 
-Full structured catalog: `sources/hebrew_ai_models.json` (machine-readable) + `sources/source_index.md` (human-readable).
-
----
-
-## Source selection (STEP 4.5)
-
-The skill picks the right source per task. Examples:
-
-| Task | Selected source | Why |
-|---|---|---|
-| Generate Hebrew tech blog | Claude + corpus/jargon.json | Default tech-formal mode; Claude excels at general Hebrew tech |
-| Validate grammar | DictaBERT-parse via toolkit | Best parser; CC BY 4.0 |
-| Validate slang explanation | DictaLM-3.0-24B-Thinking | Best Hebrew LLM for cultural nuance |
-| Legal contract | Legal-heBERT + temperature=0 | Legal terminology + deterministic output |
-| Medical clinical note | hebrew_medical_ner_v5 | Medical entity recognition |
-| Memorial address | BEREL_3.0 + hebEMO | Ceremonial + emotion-aware |
-| Production Hebrew LLM serving | DictaLM-2.0 + TensorRT-LLM + Triton | Scaled serving; near-constant latency at 16+ concurrent |
-| Hebrew ASR | ivrit-ai whisper-large-v3-turbo-ct2 | Top Hebrew ASR; 22K+ downloads |
-| Hebrew TTS | SIMS-7B + phonikud | Best contemporary Hebrew TTS |
-| Diacritization (nikud) | Dicta Nakdan API | Live API; ceremonial-grade |
-| Hebrew-English RAG embeddings | neodictabert-bilingual-embed | Best bilingual embeddings |
-
-Full decision tree: `sources/source_selection.md`.
-
-User can override: *"use Legal-heBERT"* / *"skip model validation"* / *"strict-corpus only"*.
+Full structured catalog: `sources/hebrew_ai_models.json` + `sources/source_index.md` + `sources/source_selection.md`.
 
 ---
 
 ## The hebrew_toolkit.py CLI
 
-Unified runtime for the 12+ specialized models. Lazy-loads per subcommand.
+14 subcommands invoking specialized Hebrew models on demand. Lazy-loads per subcommand.
 
 ```sh
 python scripts/hebrew_toolkit.py morph "ההנחה הזאת..."         # DictaBERT-morph
 python scripts/hebrew_toolkit.py parse "..."                    # DictaBERT-parse → dep tree
-python scripts/hebrew_toolkit.py ner "..."                      # DictaBERT-NER → entities
+python scripts/hebrew_toolkit.py ner "..."                      # DictaBERT-NER
 python scripts/hebrew_toolkit.py sentiment "..."                # heBERT_sentiment
 python scripts/hebrew_toolkit.py emotion "..."                  # hebEMO → 8 emotion scores
 python scripts/hebrew_toolkit.py legal "..."                    # Legal-heBERT embeddings
@@ -282,51 +333,31 @@ python scripts/hebrew_toolkit.py offensive "..."                # offensive-dete
 python scripts/hebrew_toolkit.py nakdan "..."                   # Dicta Nakdan diacritization
 python scripts/hebrew_toolkit.py translate "..." --to en        # Helsinki-NLP MT
 python scripts/hebrew_toolkit.py summarize @article.txt         # het5_summarization
-python scripts/hebrew_toolkit.py recommend --task generate --variation legal-technical
-python scripts/hebrew_toolkit.py rubric output.txt source.txt   # 4-axis rubric template
+python scripts/hebrew_toolkit.py recommend --task X --variation Y
+python scripts/hebrew_toolkit.py rubric output.txt source.txt   # 4-axis template
 ```
 
 Output: structured JSON. Input: literal Hebrew text or `@filepath`.
 
 ---
 
-## The hebrew_validate.py CLI
-
-Fast regex + DictaBERT grammar validator.
-
-```sh
-# Regex-only (no deps)
-python scripts/hebrew_validate.py --no-model your_text.md
-
-# Full mode (regex + DictaBERT parsing)
-python scripts/hebrew_validate.py your_text.md
-
-# JSON output for CI integration
-python scripts/hebrew_validate.py --json your_text.md
-```
-
-Detects 11+ regex-rule patterns + model-based agreement/smikhut/binyan checks. Exit codes: 0=clean, 1=warnings, 2=errors.
-
----
-
 ## Production deployment
 
-For high-volume Hebrew LLM serving, the skill documents the production path: **DictaLM-2.0-Instruct + NVIDIA TensorRT-LLM + Triton Inference Server**. Near-constant latency at 16+ concurrent requests on a single A100.
-
-Full recipe: `references/nvidia_tensorrt_optimization.md`.
+For high-volume Hebrew LLM serving: **DictaLM-2.0-Instruct + NVIDIA TensorRT-LLM + Triton Inference Server**. Near-constant latency at 16+ concurrent requests on a single A100.
 
 Cost crossover from Claude API to self-hosted: ~5–10M Hebrew tokens/month.
+
+Full recipe: `references/nvidia_tensorrt_optimization.md`.
 
 ---
 
 ## When NOT to use this skill
 
 - General Hebrew translation → use DeepL or DictaLM directly
-- Formal Academy-of-Hebrew documents → use `hebrew-content-writer`
 - Hebrew RTL CSS / web layout → use `hebrew-rtl-best-practices`
-- Hebrew PDF / DOCX / PPTX generation → use `hebrew-document-generator`
+- Hebrew PDF / DOCX / PPTX physical generation → use `hebrew-document-generator`
 - Niqud / vowelization only → use Dicta Nakdan directly
-- Non-tech content (literary fiction, news reporting) → use `hebrew-content-writer`
+- Non-Hebrew content
 
 ---
 
@@ -341,58 +372,45 @@ ah-sheli-gibor/
 ├── CONTRIBUTING.md                     # How to add corpus entries
 ├── LICENSE                             # MIT
 │
-├── corpus/
-│   └── jargon.json                     # Vocabulary corpus with provenance
+├── corpus/jargon.json                  # Vocabulary corpus with provenance
 │
 ├── personas/                           # The 6 voices
-│   ├── personas.json
-│   ├── yoel-yoyo-sarig.md              # Tech founder (M)
-│   ├── shira-lev.md                    # Literary speechwriter (F)
-│   ├── gilad-esh.md                    # Comedian (M)
-│   ├── dana-almog.md                   # TV panelist (F)
-│   ├── itamar-hoze.md                  # Veteran journalist (M)
-│   └── noa-ofek.md                     # Contemporary creator (F)
+│   ├── yoel-yoyo-sarig.md              ├── shira-lev.md           ├── gilad-esh.md
+│   ├── dana-almog.md                   ├── itamar-hoze.md         └── noa-ofek.md
 │
-├── output_types/                       # The 5 outputs
-│   ├── pitch.md
-│   ├── speech.md
-│   ├── talking_cards.md
-│   └── teleprompter.md
+├── output_types/                       # 25+ output types (NEW v0.5.0 expanded)
+│   ├── pitch.md   speech.md   talking_cards.md   teleprompter.md
+│   ├── book-chapter.md   book-proposal.md   manuscript-edit.md
+│   ├── article-feature.md   article-op-ed.md   article-news.md   article-profile.md
+│   ├── course-material.md
+│   ├── report-executive.md   report-business.md   report-whitepaper.md   report-incident.md
+│   ├── research-paper.md   research-proposal.md   thesis-chapter.md
+│   ├── business-plan.md   rfp-response.md   case-study.md
+│   ├── comms.md   tech-doc.md   product-spec.md
 │
-├── sources/                            # 124-entry catalog (NEW v0.4.0)
-│   ├── hebrew_ai_models.json
-│   ├── hebrew_llms.json
-│   ├── source_index.md
-│   └── source_selection.md             # Decision tree
+├── sources/                            # 124-entry AI catalog (v0.4.0)
+│   ├── hebrew_ai_models.json   hebrew_llms.json   source_index.md   source_selection.md
 │
 ├── references/
 │   ├── grammar_layer.md                # Binyan / gender / smikhut / preposition rules
-│   ├── grammar_validation_tools.md     # Toolchain (DictaBERT / Hspell / Nakdan)
+│   ├── grammar_validation_tools.md     # DictaBERT / Hspell / Nakdan toolchain
 │   ├── common_errors_catalog.md        # 12-category error catalog (A-L)
 │   ├── anti_patterns.md                # Bad-output table
 │   ├── phrasing_checker.md             # Idiomaticity / naturalness layer
-│   ├── hebrew_variations.md            # 8 variation modes (NEW v0.4.0)
-│   ├── output_evaluation_rubric.md     # 4-axis scoring (NEW v0.4.0)
-│   ├── nvidia_tensorrt_optimization.md # Production deployment (NEW v0.4.0)
-│   └── sources.md                      # Source registry with provenance
+│   ├── hebrew_variations.md            # 15 variation modes (NEW v0.5.0 expanded)
+│   ├── output_evaluation_rubric.md     # 4-axis Hebrew-labeled scoring
+│   └── nvidia_tensorrt_optimization.md # Production deployment
 │
-├── research/
-│   └── contemporary_voices_2026.md     # Persona research basis
+├── research/contemporary_voices_2026.md
 │
 ├── scripts/
 │   ├── hebrew_validate.py              # Fast regex + DictaBERT validator
-│   ├── hebrew_toolkit.py               # Unified Hebrew NLP CLI (NEW v0.4.0)
-│   └── requirements.txt                # transformers + torch
+│   ├── hebrew_toolkit.py               # Unified Hebrew NLP CLI (14 subcommands)
+│   └── requirements.txt
 │
-├── bin/
-│   └── install.js                      # npx installer
-│
-├── tests/
-│   ├── test_cases.md                   # 5 register tests
-│   └── test_results_v0.md
-│
-└── examples/
-    └── rewrites/                       # Before/after examples
+├── bin/install.js                      # npx installer
+├── tests/                              # Test cases + results
+└── examples/rewrites/                  # Before/after examples
 ```
 
 ---
@@ -401,13 +419,13 @@ ah-sheli-gibor/
 
 - **v0.1.0** — scaffold + 30 seed corpus + 5 tests + rewrite-only
 - **v0.1.1** — npx installer
-- **v0.2.0** — 6 personas + 4 output types + interview (STEP 0) + initial validation
-- **v0.3.0** — 6-stage validation + phrasing checker + grammar tools + 12-category error catalog + DictaBERT-powered validator
-- **v0.4.0** (current) — **124-source catalog** (Rosehill + NVIDIA) + **8 variation modes** + **STEP 4.5 source selection** + **STEP 5g 4-axis rubric** (Hebrew-labeled) + **user-goal interview question** + **hebrew_toolkit.py** (14 subcommands invoking specialized models on demand) + **TensorRT-LLM production deployment guide**
-- **v0.5.0** (planned) — corpus expansion to 200+ 2025–2026 web-sourced entries; custom persona from user samples; test matrix expansion (5 → 60 cases)
-- **v0.6.0** (planned) — audio rehearsal loop (TTS + ASR feedback); visual deliverable pipeline (markdown → PDF / Gamma decks)
-- **v0.7.0** (planned) — educational mode (explain corrections); strict-corpus mode; self-improvement feedback loop
-- **v1.0.0** (planned) — 300+ corpus, additional personas (Arabic-Hebrew, religious-Hebrew), CI / GitHub Action integration
+- **v0.2.0** — 6 personas + 4 output types + interview + initial validation
+- **v0.3.0** — 6-stage validation + phrasing checker + grammar tools + DictaBERT validator
+- **v0.4.0** — 124-source catalog + 8 variation modes + STEP 4.5 source selection + STEP 5g 4-axis rubric + user-goal interview + `hebrew_toolkit.py` (14 subcommands)
+- **v0.5.0** (current) — **comprehensive scope expansion + rebrand as the Hebrew production suite**: 25+ output types (added books / articles / courses / reports / research / business / communications / technical docs) + 15 variation modes (added software-engineering / cybersecurity / product-management / defense-aerospace / ai-ml-research / startup-fundraising / gen-z-creator) + 4 community sub-filters (arabic-hebrew-bilingual / haredi-tech / academic-formal / diaspora-israeli)
+- **v0.6.0** (planned) — audio rehearsal loop (TTS + ASR feedback); visual deliverable pipeline (markdown → PDF / Gamma decks); corpus expansion to 200+ 2025–2026 web-sourced entries
+- **v0.7.0** (planned) — educational mode; strict-corpus mode; self-improvement feedback loop; custom persona from user samples
+- **v1.0.0** (planned) — 300+ corpus entries, additional personas, CI / GitHub Action integration
 
 ---
 
@@ -419,14 +437,13 @@ MIT. See `LICENSE`. Underlying model licenses (DictaBERT CC BY 4.0; Hspell AGPL-
 
 ## Contributing
 
-See `CONTRIBUTING.md`. Every new corpus entry must conform to the v2 schema and carry valid provenance.
-
-Pull requests welcome — especially for:
-- 2025–2026 corpus entries from Israeli tech sources
-- New source-catalog entries (when new Hebrew models appear on HuggingFace)
+See `CONTRIBUTING.md`. Pull requests welcome — especially for:
+- 2025–2026 corpus entries from Israeli sources
+- New variation-mode entries
+- New output-type specifications
 - Test cases for personas × variation modes × output types
 - Custom persona profiles built from public Israeli voice samples
 
 ---
 
-*Built with the help of Claude Opus 4.7 (1M context). Catalog sources: Daniel Rosehill, NVIDIA Developer Blog, dicta-il, ivrit-ai, avichr, yam-peleg, onlplab, imvladikon, slprl, HeNLP, Helsinki-NLP, Norod78, Slasky, thewh1teagle.*
+*Built with the help of Claude Opus 4.7 (1M context). Catalog sources: Daniel Rosehill, NVIDIA Developer Blog, dicta-il, ivrit-ai, avichr, yam-peleg, onlplab, imvladikon, slprl, HeNLP, Helsinki-NLP, Norod78, Slasky, thewh1teagle, Intel, NNLP-IL.*

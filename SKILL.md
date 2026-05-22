@@ -1,26 +1,63 @@
 ---
 name: ah-sheli-gibor
-description: "Produce authentic 2026-era Israeli tech Hebrew across 5 output types — rewrite, pitch, speech, talking-cards, teleprompter — with correct binyan/gender/smikhut grammar, 5-register awareness, a choice of 6 voice personas (3 men, 3 women: יואל / שירה / גלעד / דנה / איתמר / נועה), and 8 Hebrew variation modes (tech-formal, legal-technical, medical, biblical-rabbinic, gender-emotional, slang-cultural, bilingual, creative-lyrics). Interviews the user for output-type, context, purpose, mood, GOAL, variation mode, and persona before writing. Auto-selects appropriate AI source per task from a 124-entry catalog (DictaBERT / DictaLM / hebEMO / Legal-heBERT / hebrew_medical_ner / BEREL / ivrit-ai Whisper / etc.). Every output runs a six-stage validation pass + 4-axis Hebrew-labeled rubric (רלוונטיות / קוהרנטיות / עקביות / רהיטות, 1-10 each). Ships with hebrew_toolkit.py for invoking 12+ specialized models programmatically. Documents NVIDIA TensorRT-LLM production deployment for DictaLM-2.0. Use for any Israeli tech Hebrew production task. Do NOT use for general Hebrew translation (use DeepL/DictaLM), formal Academy documents, RTL CSS (use hebrew-rtl-best-practices), Hebrew document generation (use hebrew-document-generator), or non-tech content (use hebrew-content-writer)."
+description: "The comprehensive Hebrew production suite. Produces authentic 2026-era Hebrew across 25+ output types (rewrite, pitch, speech, talking-cards, teleprompter, book-chapter, book-proposal, manuscript-edit, article-feature, article-op-ed, article-news, article-profile, course-material, report-executive, report-business, report-whitepaper, report-incident, research-paper, research-proposal, thesis-chapter, business-plan, rfp-response, case-study, comms, tech-doc, product-spec) and 15 Hebrew variation modes (tech-general default, software-engineering, cybersecurity, product-management, defense-aerospace, ai-ml-research, startup-fundraising, gen-z-creator, legal-technical, medical, biblical-rabbinic, gender-emotional, slang-cultural, bilingual, creative-lyrics) plus 4 community sub-filters (arabic-hebrew-bilingual, haredi-tech, academic-formal, diaspora-israeli). 6 voice personas (יואל / שירה / גלעד / דנה / איתמר / נועה). Interviews user for output-type, context, purpose, mood, GOAL, variation mode, sub-filter, persona before writing. Auto-selects appropriate AI source per task from 124-entry catalog (DictaBERT / DictaLM-3.0 / hebEMO / Legal-heBERT / hebrew_medical_ner / BEREL / ivrit-ai Whisper / etc.). Six-stage validation + 4-axis Hebrew-labeled rubric (רלוונטיות / קוהרנטיות / עקביות / רהיטות). Ships with hebrew_toolkit.py for 14 specialized model invocations. Documents NVIDIA TensorRT-LLM production deployment. Use for any professional Hebrew production task: tech, defense, academic, legal, medical, journalism, books, courses, reports, research. Do NOT use for general Hebrew translation (use DeepL/DictaLM), RTL CSS (use hebrew-rtl-best-practices), Hebrew document generation (use hebrew-document-generator)."
 license: MIT
 allowed-tools: ''
 compatibility: Works with Claude, Claude Code, Cursor. Optimized for Claude Sonnet 4.6+ and Claude Opus 4.7. Hebrew RTL rendering depends on the host environment.
 ---
 
-# Ah Sheli Gibor — Israeli Tech Hebrew Production Skill
+# Ah Sheli Gibor — The Hebrew Production Suite
 
-> "אח שלי גיבור" — the affectionate startup-nation address. This skill produces Hebrew text that sounds like a 2026 Israeli tech professional actually wrote it.
+> "אח שלי גיבור" — the affectionate Israeli address. The comprehensive Hebrew production skill across every format and register.
 
 ## What this skill does
 
-Produces authentic 2026-era Israeli tech Hebrew across **5 output types**:
+Produces authentic 2026-era Hebrew across **25+ output types** spanning rewriting, books, articles, courses, reports, research, business documents, communications, and technical documentation. Voiced by **6 personas**. Calibrated to **15 variation modes + 4 community sub-filters**. Validated through a **six-stage validation pass + 4-axis Hebrew-labeled rubric**. Grounded in a **124-entry catalog** of Hebrew AI models.
 
-1. **Rewrite** — comprehend source text and reconstruct in target register
-2. **Pitch** — investor / customer / internal / elevator pitch decks and scripts
-3. **Speech** — keynotes, commencements, memorials, founder town-halls, award speeches
-4. **Talking cards** — panel prep, TV interview cards, board meeting navigators
-5. **Teleprompter** — verbatim broadcast/recorded-video scripts with delivery annotations
+### The 25+ output types (full catalog in `output_types/`)
 
-Every output is **voiced by one of 6 personas** (you choose, or the skill chooses based on context):
+**Stage / spoken (5):**
+- **Rewrite** · **Pitch** · **Speech** · **Talking cards** · **Teleprompter**
+
+**Books (3):**
+- **book-chapter** · **book-proposal** · **manuscript-edit**
+
+**Articles (4):**
+- **article-feature** (magazine longform) · **article-op-ed** · **article-news** · **article-profile**
+
+**Educational (1, with 6 sub-formats):**
+- **course-material** (syllabus / lesson plan / handout / assessment / module / reading guide)
+
+**Reports (4):**
+- **report-executive** · **report-business** · **report-whitepaper** · **report-incident**
+
+**Academic (3):**
+- **research-paper** (IMRAD bilingual) · **research-proposal** · **thesis-chapter**
+
+**Business (3):**
+- **business-plan** · **rfp-response** (Israeli michraz) · **case-study**
+
+**Communications (1, with 3 sub-formats):**
+- **comms** (press-release / formal-email / memo)
+
+**Technical (2):**
+- **tech-doc** (README / API / runbook / ADR / migration / troubleshooting) · **product-spec** (PRD)
+
+### The 15 variation modes (full spec in `references/hebrew_variations.md`)
+
+**Tech sub-domains (8):**
+- `tech-general` (default) · `software-engineering` · `cybersecurity` · `product-management` · `defense-aerospace` · `ai-ml-research` · `startup-fundraising` · `gen-z-creator`
+
+**Domain specialized (3):**
+- `legal-technical` · `medical` · `biblical-rabbinic`
+
+**Voice / style (4):**
+- `gender-emotional` · `slang-cultural` · `bilingual` · `creative-lyrics`
+
+**Community sub-filters (combine with any base mode):**
+- `arabic-hebrew-bilingual` · `haredi-tech` · `academic-formal` · `diaspora-israeli`
+
+### The 6 personas (full profiles in `personas/`)
 
 - **יואל "יו-יו" שריג** (M) — tech-founder, high-energy, dense code-switching
 - **שירה לב** (F) — literary speechwriter, classical-modern Hebrew balance
@@ -29,31 +66,24 @@ Every output is **voiced by one of 6 personas** (you choose, or the skill choose
 - **איתמר חוזה** (M) — veteran feature journalist, patient long-form authority
 - **נועה אופק** (F) — contemporary creator, intimate, vulnerable, fluid Hebrew-English
 
-Every output is **validated** before delivery against:
-- Hebrew grammar (binyan / gender / smikhut / preposition binding / definite-article rules)
-- Current 2026 talk-jargon style (corpus-grounded vocabulary, no dated language)
-- Persona consistency (the chosen voice holds across the output)
-
 ## When to invoke
 
 Trigger phrases the skill responds to:
 - "rewrite in Israeli tech Hebrew"
-- "write me a pitch for [X]"
-- "draft a speech / keynote in Hebrew"
-- "prepare talking cards for [scenario]"
-- "teleprompter script for [recording]"
+- "write me a pitch / speech / book chapter / op-ed / research paper / executive report"
+- "prepare talking cards / teleprompter script"
+- "draft a manuscript proposal / RFP response / business plan / PRD"
+- "edit this chapter / paper / article"
 - "make this sound like [persona name] wrote it"
-- "Israeli LinkedIn voice"
-- Any input text or topic with an implicit ask for production-grade Israeli tech Hebrew
+- Any input text or topic requiring production-grade Hebrew
 
 ## When NOT to use this skill
 
 - General Hebrew translation → use DeepL or DictaLM 3.0
-- Formal Academy-of-Hebrew documents → use `hebrew-content-writer`
 - Hebrew RTL CSS or layout → use `hebrew-rtl-best-practices`
-- Hebrew PDF/DOCX/PPTX generation → use `hebrew-document-generator`
-- Niqud/vowelization → use Dicta Nakdan API
-- Non-tech content (legal, medical, literary, news) → use `hebrew-content-writer`
+- Hebrew PDF/DOCX/PPTX physical generation → use `hebrew-document-generator`
+- Niqud/vowelization only → use Dicta Nakdan API directly
+- Non-Hebrew content
 
 ---
 
@@ -473,8 +503,8 @@ Primary source organizations:
 - **v0.1.1** — npx installer
 - **v0.2.0** — 6 personas + 4 output types + interview (STEP 0) + initial validation
 - **v0.3.0** — expanded 6-stage validation + phrasing checker + grammar tools + 12-category error catalog + DictaBERT-powered validator script
-- **v0.4.0** (current) — **124-source catalog** (Hebrew AI models from Rosehill catalogs + NVIDIA TensorRT-LLM optimization) + **8 variation modes** + **source-selection decision logic** (STEP 4.5) + **4-axis output rubric** (STEP 5g — רלוונטיות / קוהרנטיות / עקביות / רהיטות) + **user-goal interview question** + **unified Hebrew NLP toolkit** (`hebrew_toolkit.py`) with 14 subcommands invoking specialized models on demand
-- **v0.5.0** (planned) — corpus expansion to 200+ 2025–2026 web-sourced entries; custom persona from user samples; test matrix expansion (5 → 60 cases)
-- **v0.6.0** (planned) — audio rehearsal loop (TTS + ASR feedback); visual deliverable pipeline (markdown → PDF / Gamma decks)
-- **v0.7.0** (planned) — educational mode (explain corrections); strict-corpus mode (refuse non-grounded terms); self-improvement feedback loop
-- **v1.0.0** (planned) — 300+ corpus, additional personas (Arabic-Hebrew, religious-Hebrew), CI / GitHub Action integration
+- **v0.4.0** — 124-source catalog + 8 variation modes + source-selection decision logic (STEP 4.5) + 4-axis output rubric (STEP 5g) + user-goal interview question + `hebrew_toolkit.py` with 14 specialized-model subcommands
+- **v0.5.0** (current) — **Comprehensive scope expansion + rebrand as the Hebrew production suite**: 25+ output types (added books / articles / courses / reports / research / business / communications / technical docs) + 15 variation modes (added software-engineering, cybersecurity, product-management, defense-aerospace, ai-ml-research, startup-fundraising, gen-z-creator) + 4 community sub-filters (arabic-hebrew-bilingual, haredi-tech, academic-formal, diaspora-israeli)
+- **v0.6.0** (planned) — audio rehearsal loop (TTS + ASR feedback); visual deliverable pipeline (markdown → PDF / Gamma decks); corpus expansion to 200+ 2025–2026 web-sourced entries
+- **v0.7.0** (planned) — educational mode (explain corrections); strict-corpus mode (refuse non-grounded terms); self-improvement feedback loop; custom persona from user samples; test matrix expansion (5 → 60 cases)
+- **v1.0.0** (planned) — 300+ corpus entries, additional personas, CI / GitHub Action integration

@@ -1,7 +1,7 @@
 {
   "name": "ah-sheli-gibor",
-  "version": "0.4.0",
-  "description": "Claude Skill for producing authentic 2026-era Israeli tech Hebrew. 5 output types (rewrite/pitch/speech/talking-cards/teleprompter), 6 voice personas (3M/3F), 5-register awareness, 8 Hebrew variation modes (tech-formal/legal/medical/biblical/gender-emotional/slang-cultural/bilingual/creative-lyrics). 124-entry Hebrew AI source catalog with task-aware source selection (DictaBERT, DictaLM-3.0, hebEMO, Legal-heBERT, BEREL, ivrit-ai Whisper, NVIDIA TensorRT-LLM, etc.). 4-axis Hebrew-labeled output rubric. Unified hebrew_toolkit.py CLI for invoking 12+ specialized models.",
+  "version": "0.5.0",
+  "description": "The comprehensive Hebrew production suite. 25+ output types (rewrite/pitch/speech/talking-cards/teleprompter/book-chapter/book-proposal/manuscript-edit/article-feature/op-ed/news/profile/course-material/report-executive/business/whitepaper/incident/research-paper/proposal/thesis-chapter/business-plan/rfp-response/case-study/comms/tech-doc/product-spec) × 15 variation modes (tech-general/software-engineering/cybersecurity/product-management/defense-aerospace/ai-ml-research/startup-fundraising/gen-z-creator/legal-technical/medical/biblical-rabbinic/gender-emotional/slang-cultural/bilingual/creative-lyrics) + 4 community sub-filters × 6 voice personas. 124-entry Hebrew AI source catalog with task-aware source selection. Six-stage validation + 4-axis Hebrew-labeled rubric (רלוונטיות / קוהרנטיות / עקביות / רהיטות). Unified hebrew_toolkit.py CLI invokes specialized Hebrew models on demand (DictaBERT, DictaLM-3.0, hebEMO, Legal-heBERT, BEREL, ivrit-ai Whisper, Dicta Nakdan, Helsinki-NLP MT, het5_summarization). Documents NVIDIA TensorRT-LLM production deployment.",
   "bin": {
     "ah-sheli-gibor": "bin/install.js"
   },
