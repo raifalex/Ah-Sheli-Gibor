@@ -3,7 +3,7 @@
   "version": "0.4.0",
   "description": "Claude Skill for producing authentic 2026-era Israeli tech Hebrew. 5 output types (rewrite/pitch/speech/talking-cards/teleprompter), 6 voice personas (3M/3F), 5-register awareness, 8 Hebrew variation modes (tech-formal/legal/medical/biblical/gender-emotional/slang-cultural/bilingual/creative-lyrics). 124-entry Hebrew AI source catalog with task-aware source selection (DictaBERT, DictaLM-3.0, hebEMO, Legal-heBERT, BEREL, ivrit-ai Whisper, NVIDIA TensorRT-LLM, etc.). 4-axis Hebrew-labeled output rubric. Unified hebrew_toolkit.py CLI for invoking 12+ specialized models.",
   "bin": {
-    "ah-sheli-gibor": "./bin/install.js"
+    "ah-sheli-gibor": "bin/install.js"
   },
   "files": [
     "bin/",
@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/raifalex/Ah-Sheli-Gibor.git"
+    "url": "git+https://github.com/raifalex/Ah-Sheli-Gibor.git"
   },
   "homepage": "https://github.com/raifalex/Ah-Sheli-Gibor#readme",
   "bugs": {
